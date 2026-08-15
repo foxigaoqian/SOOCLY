@@ -1,0 +1,20 @@
+# Project-local third-party Agent Skills are installed by scripts/setup-agent-skills.sh.
+# Keep the SOOCLY project skill versioned; ignore vendor skill copies/updates.
+.agents/skills/*
+!.agents/skills/soocly-product/
+!.agents/skills/soocly-product/**
+
+# Common local environment files
+.env
+.env.*
+!.env.example
+
+# Node / build artifacts (for the future app)
+node_modules/
+.next/
+out/
+dist/
+coverage/
+
+# OS / editor noise
+.DS_Store
