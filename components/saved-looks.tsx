@@ -1,36 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { looks } from "@/lib/demo-data";
+import { useSyncExternalStore } from "react";
 import { LookCard } from "@/components/look-card";
-
-const STORAGE_KEY = "soocly:saved:v1";
+import { looks } from "@/lib/demo-data";
+import {
+  getSavedSnapshot,
+  getServerSavedSnapshot,
+  parseSavedSnapshot,
+  subscribeSaved,
+} from "@/lib/saved-store";
 
 export function SavedLooks() {
-  const [slugs, setSlugs] = useState<string[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        setSlugs([]);
-        return;
-      }
-      const parsed = JSON.parse(raw) as { version?: number; lookSlugs?: unknown };
-      setSlugs(
-        parsed.version === 1 && Array.isArray(parsed.lookSlugs)
-          ? parsed.lookSlugs.filter((item): item is string => typeof item === "string")
-          : [],
-      );
-    } catch {
-      setSlugs([]);
-    }
-  }, []);
-
-  if (slugs === null) {
-    return <p className="empty-state" aria-live="polite">Loading saved Looks…</p>;
-  }
-
+  const snapshot = useSyncExternalStore(
+    subscribeSaved,
+    getSavedSnapshot,
+    getServerSavedSnapshot,
+  );
+  const slugs = parseSavedSnapshot(snapshot);
   const savedLooks = looks.filter((look) => slugs.includes(look.slug));
 
   if (savedLooks.length === 0) {
