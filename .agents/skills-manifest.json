@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "updated": "2026-08-15",
+  "project": "SOOCLY",
+  "defaultPacks": [
+    {
+      "source": "coreyhaines31/marketingskills",
+      "skills": [
+        "product-marketing",
+        "marketing-psychology",
+        "customer-research",
+        "site-architecture",
+        "programmatic-seo",
+        "seo-audit",
+        "influencer-marketing",
+        "community-marketing",
+        "referrals",
+        "free-tools",
+        "analytics"
+      ]
+    },
+    {
+      "source": "anthropics/skills",
+      "skills": ["frontend-design"]
+    },
+    {
+      "source": "vercel-labs/agent-skills",
+      "skills": [
+        "react-best-practices",
+        "composition-patterns",
+        "web-design-guidelines"
+      ]
+    },
+    {
+      "source": "supabase/agent-skills",
+      "skills": [
+        "supabase",
+        "supabase-postgres-best-practices"
+      ]
+    },
+    {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "skills": ["ui-ux-pro-max"],
+      "installer": "ui-ux-pro-max-cli"
+    }
+  ],
+  "optionalPacks": [
+    {
+      "when": "Cloudflare is selected for production deployment or edge/storage workloads",
+      "source": "cloudflare/skills",
+      "skills": [
+        "cloudflare",
+        "wrangler",
+        "web-perf",
+        "workers-best-practices"
+      ]
+    }
+  ],
+  "localSkills": [
+    ".agents/skills/soocly-product/SKILL.md"
+  ]
+}
