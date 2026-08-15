@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+import "./apple-motion.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://soocly.com"),
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f5f4f0",
+  themeColor: "#f5f5f7",
   colorScheme: "light",
 };
 
