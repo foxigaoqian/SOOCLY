@@ -1,3 +1,4 @@
+import { lookVariants } from "@/lib/demo-data";
 import type {
   CameraProofImage,
   LookVariant,
@@ -5,6 +6,10 @@ import type {
   VariantVerificationEvidence,
   VerificationStatus,
 } from "@/lib/types";
+import {
+  assertVerificationDataset,
+  auditVerificationEvidence,
+} from "@/lib/verification-validator";
 
 export const VERIFICATION_REQUIREMENTS = {
   sampleImages: 6,
@@ -36,6 +41,15 @@ const verificationEvidence: Record<string, VariantVerificationEvidence> = {
   },
 };
 
+// This runs whenever the product data is built. A malformed proof entry now
+// fails CI/build instead of silently inflating counts or publishing the wrong
+// camera, role, or status as evidence.
+assertVerificationDataset(
+  lookVariants,
+  verificationEvidence,
+  VERIFICATION_REQUIREMENTS,
+);
+
 export type VerificationProgress = {
   status: VerificationStatus;
   sampleCount: number;
@@ -44,6 +58,7 @@ export type VerificationProgress = {
   requiredSplitPairCount: number;
   settingsValidated: boolean;
   rightsConfirmed: boolean;
+  canStartTesting: boolean;
   canBeVerified: boolean;
 };
 
@@ -56,52 +71,46 @@ export function getVerificationEvidence(variantId: string) {
   return verificationEvidence[variantId];
 }
 
+export function getVerificationAudit(variant: LookVariant) {
+  return auditVerificationEvidence(
+    variant,
+    getVerificationEvidence(variant.id),
+    VERIFICATION_REQUIREMENTS,
+  );
+}
+
 export function getRenderableCameraProof(variant: LookVariant): RenderableCameraProof {
   const evidence = getVerificationEvidence(variant.id);
 
-  // Camera proof is never rendered publicly until the image rights for the
-  // evidence set have been confirmed. This keeps collected/testing assets
-  // separate from assets that are safe to present as product proof.
+  // Collected/testing media stays private until the entire evidence set has
+  // explicit rights confirmation. Structural validation still happens before
+  // this gate, so invalid media can never count toward readiness.
   if (!evidence?.rightsConfirmed) {
     return { sampleImages: [], splitPairs: [] };
   }
 
-  const sampleImages = evidence.sampleImages.filter(
-    (image) => image.deviceId === variant.deviceId && image.role === "look-sample",
-  );
+  const audit = getVerificationAudit(variant);
 
-  const splitPairs = evidence.splitPairs.filter(
-    (pair) =>
-      pair.defaultImage.deviceId === variant.deviceId &&
-      pair.lookImage.deviceId === variant.deviceId &&
-      pair.defaultImage.role === "default" &&
-      pair.lookImage.role === "look",
-  );
-
-  return { sampleImages, splitPairs };
+  return {
+    sampleImages: audit.validSampleImages,
+    splitPairs: audit.validSplitPairs,
+  };
 }
 
 export function getVerificationProgress(variant: LookVariant): VerificationProgress {
   const evidence = getVerificationEvidence(variant.id);
-  const sampleCount = evidence?.sampleImages.length ?? 0;
-  const splitPairCount = evidence?.splitPairs.length ?? 0;
-  const settingsValidated = evidence?.settingsValidated ?? false;
-  const rightsConfirmed = evidence?.rightsConfirmed ?? false;
-  const canBeVerified =
-    settingsValidated &&
-    rightsConfirmed &&
-    sampleCount >= VERIFICATION_REQUIREMENTS.sampleImages &&
-    splitPairCount >= VERIFICATION_REQUIREMENTS.splitPairs;
+  const audit = getVerificationAudit(variant);
 
   return {
     status: variant.status,
-    sampleCount,
+    sampleCount: audit.validSampleImages.length,
     requiredSampleCount: VERIFICATION_REQUIREMENTS.sampleImages,
-    splitPairCount,
+    splitPairCount: audit.validSplitPairs.length,
     requiredSplitPairCount: VERIFICATION_REQUIREMENTS.splitPairs,
-    settingsValidated,
-    rightsConfirmed,
-    canBeVerified,
+    settingsValidated: evidence?.settingsValidated ?? false,
+    rightsConfirmed: evidence?.rightsConfirmed ?? false,
+    canStartTesting: audit.canStartTesting,
+    canBeVerified: audit.canBeVerified,
   };
 }
 
