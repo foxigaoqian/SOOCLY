@@ -67,7 +67,7 @@ export default function CamerasPage() {
             const href = `/cameras/${device.brandSlug}/${device.modelSlug}`;
 
             return (
-              <MotionReveal key={device.id} variant="rise" delay={index * 90}>
+              <MotionReveal key={device.id} variant="rise">
                 <article className="camera-index-card">
                   <Link
                     className="camera-index-card__visual"
