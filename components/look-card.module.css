@@ -1,0 +1,58 @@
+.proofBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.72);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.035em;
+  line-height: 1;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+}
+
+.proofBadge::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.prototype {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.testing {
+  border-color: rgba(255, 106, 50, 0.34);
+  background: rgba(255, 253, 248, 0.92);
+  color: #b84318;
+}
+
+.verified {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(22, 91, 57, 0.9);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .proofBadge {
+    top: 11px;
+    left: 11px;
+    min-height: 28px;
+    padding-inline: 10px;
+    font-size: 0.64rem;
+  }
+}
