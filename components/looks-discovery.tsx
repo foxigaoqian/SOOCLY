@@ -218,7 +218,6 @@ export function LooksDiscovery({
                       src={look.coverImage}
                       alt={`Editorial visual reference for ${look.name}`}
                       fill
-                      priority={index < 3}
                       sizes="(max-width: 720px) 94vw, (max-width: 1100px) 47vw, 31vw"
                     />
                     <div className="looks-discovery-card__topline" aria-hidden="true">
