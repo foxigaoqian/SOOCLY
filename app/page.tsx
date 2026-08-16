@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { BeforeAfter } from "@/components/before-after";
@@ -7,6 +8,19 @@ import { LookCard } from "@/components/look-card";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PrototypeNote } from "@/components/prototype-note";
 import { devices, looks } from "@/lib/demo-data";
+import { SITE_DESCRIPTION } from "@/lib/site-config";
+import { buildSocialMetadata } from "@/lib/social-metadata";
+
+const homeTitle = "SOOCLY — Choose the Look Before You Shoot.";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  ...buildSocialMetadata({
+    title: homeTitle,
+    description: SITE_DESCRIPTION,
+    path: "/",
+  }),
+};
 
 export default function HomePage() {
   const featured = looks[0];
