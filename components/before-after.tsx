@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function BeforeAfter({
   image,
@@ -15,6 +15,58 @@ export function BeforeAfter({
   lookLabel?: string;
 }) {
   const [position, setPosition] = useState(52);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const interactedRef = useRef(false);
+  const demoedRef = useRef(false);
+  const timersRef = useRef<number[]>([]);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || demoedRef.current || interactedRef.current) return;
+
+        demoedRef.current = true;
+        stage.classList.add("is-auto-demo");
+
+        const sequence: Array<[number, number]> = [
+          [260, 66],
+          [900, 36],
+          [1540, 52],
+        ];
+
+        sequence.forEach(([delay, nextPosition], index) => {
+          const timer = window.setTimeout(() => {
+            if (interactedRef.current) return;
+            setPosition(nextPosition);
+            if (index === sequence.length - 1) {
+              window.setTimeout(() => stage.classList.remove("is-auto-demo"), 520);
+            }
+          }, delay);
+          timersRef.current.push(timer);
+        });
+
+        observer.unobserve(entry.target);
+      },
+      { threshold: 0.55 },
+    );
+
+    observer.observe(stage);
+    return () => {
+      observer.disconnect();
+      timersRef.current.forEach((timer) => window.clearTimeout(timer));
+      timersRef.current = [];
+    };
+  }, []);
+
+  const stopAutoDemo = () => {
+    interactedRef.current = true;
+    timersRef.current.forEach((timer) => window.clearTimeout(timer));
+    timersRef.current = [];
+    stageRef.current?.classList.remove("is-auto-demo");
+  };
 
   return (
     <div className="comparison comparison--soocly-split">
@@ -24,7 +76,12 @@ export function BeforeAfter({
         <span className="comparison__brandline-state">Default → Look</span>
       </div>
 
-      <div className="comparison__stage" role="group" aria-label={`Compare Default with ${lookLabel}`}>
+      <div
+        ref={stageRef}
+        className="comparison__stage"
+        role="group"
+        aria-label={`Compare Default with ${lookLabel}`}
+      >
         <Image
           src={image}
           alt={`${alt}, default visualization`}
@@ -68,7 +125,12 @@ export function BeforeAfter({
           min="0"
           max="100"
           value={position}
-          onChange={(event) => setPosition(Number(event.target.value))}
+          onPointerDown={stopAutoDemo}
+          onKeyDown={stopAutoDemo}
+          onChange={(event) => {
+            stopAutoDemo();
+            setPosition(Number(event.target.value));
+          }}
           aria-label={`Drag to compare Default and ${lookLabel}`}
         />
       </div>
