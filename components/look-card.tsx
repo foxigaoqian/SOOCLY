@@ -1,107 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/components/look-card.module.css";
-import { getVariantsForLook } from "@/lib/demo-data";
+import { getLookProofState } from "@/lib/look-proof-state";
 import type { Device, Look } from "@/lib/types";
-import {
-  getRenderableCameraProof,
-  isPubliclyVerified,
-} from "@/lib/verification-data";
-
-type ProofTone = "prototype" | "testing" | "verified";
-
-type CardProofState = {
-  label: string;
-  tone: ProofTone;
-  imageSrc?: string;
-  imageAlt?: string;
-};
-
-function getCardProofState(look: Look, device?: Device): CardProofState {
-  const variants = getVariantsForLook(look.id);
-  const scopedVariants = device
-    ? variants.filter((variant) => variant.deviceId === device.id)
-    : variants;
-  const verifiedVariants = scopedVariants.filter((variant) =>
-    isPubliclyVerified(variant),
-  );
-  const testingVariants = scopedVariants.filter(
-    (variant) => variant.status === "testing",
-  );
-  const proofVariant =
-    verifiedVariants[0] ?? testingVariants[0] ?? scopedVariants[0];
-  const proofImage = proofVariant
-    ? getRenderableCameraProof(proofVariant).sampleImages[0]
-    : undefined;
-
-  if (device) {
-    if (verifiedVariants.length > 0) {
-      return {
-        label: "Verified",
-        tone: "verified",
-        imageSrc: proofImage?.src,
-        imageAlt: proofImage?.alt,
-      };
-    }
-
-    if (testingVariants.length > 0) {
-      return {
-        label: "Testing",
-        tone: "testing",
-        imageSrc: proofImage?.src,
-        imageAlt: proofImage?.alt,
-      };
-    }
-
-    return {
-      label: "Prototype",
-      tone: "prototype",
-      imageSrc: proofImage?.src,
-      imageAlt: proofImage?.alt,
-    };
-  }
-
-  if (
-    scopedVariants.length > 1 &&
-    verifiedVariants.length > 0 &&
-    verifiedVariants.length < scopedVariants.length
-  ) {
-    return {
-      label: `${verifiedVariants.length}/${scopedVariants.length} verified`,
-      tone: "verified",
-      imageSrc: proofImage?.src,
-      imageAlt: proofImage?.alt,
-    };
-  }
-
-  if (
-    scopedVariants.length > 0 &&
-    verifiedVariants.length === scopedVariants.length
-  ) {
-    return {
-      label: "Verified",
-      tone: "verified",
-      imageSrc: proofImage?.src,
-      imageAlt: proofImage?.alt,
-    };
-  }
-
-  if (testingVariants.length > 0) {
-    return {
-      label: "Testing",
-      tone: "testing",
-      imageSrc: proofImage?.src,
-      imageAlt: proofImage?.alt,
-    };
-  }
-
-  return {
-    label: "Prototype",
-    tone: "prototype",
-    imageSrc: proofImage?.src,
-    imageAlt: proofImage?.alt,
-  };
-}
 
 export function LookCard({
   look,
@@ -113,7 +14,7 @@ export function LookCard({
   priority?: boolean;
 }) {
   const href = device ? `/looks/${look.slug}?device=${device.id}` : `/looks/${look.slug}`;
-  const proof = getCardProofState(look, device);
+  const proof = getLookProofState(look, device);
   const badgeToneClass =
     proof.tone === "verified"
       ? styles.verified
