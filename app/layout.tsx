@@ -10,6 +10,7 @@ import "./brand-shell-v5.css";
 import "./interaction-v6.css";
 import "./look-detail-v1.css";
 import "./looks-discovery-v1.css";
+import "./camera-detail-v1.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://soocly.com"),
