@@ -122,8 +122,8 @@ export default function HomePage() {
 
         <MotionReveal variant="fade">
           <div className="look-grid">
-            {looks.map((look, index) => (
-              <LookCard key={look.id} look={look} priority={index === 0} />
+            {looks.map((look) => (
+              <LookCard key={look.id} look={look} />
             ))}
           </div>
         </MotionReveal>
