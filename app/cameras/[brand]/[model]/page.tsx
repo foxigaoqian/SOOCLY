@@ -229,7 +229,7 @@ export default async function CameraPage({
           <p className="eyebrow brand-eyebrow">Camera Looks made for your gear</p>
           <h2 id="camera-detail-ending-title">Your camera is ready. Pick the Look.</h2>
           <div className="camera-detail-ending__actions">
-            <Link href={`/looks?camera=${device.id}`}>Explore {device.shortLabel} Looks ↗</Link>
+            <Link href="/looks">Explore the full Look collection ↗</Link>
             {otherDevices.map((item) => (
               <Link key={item.id} className="camera-detail-ending__secondary" href={`/cameras/${item.brandSlug}/${item.modelSlug}`}>
                 Also see {item.shortLabel}
