@@ -3,19 +3,20 @@ import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 import "./apple-motion.css";
+import "./brand-v4.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://soocly.com"),
   title: {
-    default: "SOOCLY — Find Your Look. Shoot It Straight.",
+    default: "SOOCLY — Choose the Look Before You Shoot.",
     template: "%s — SOOCLY",
   },
-  description: "Discover camera Looks calibrated for your device, compare the result, and apply the settings before you shoot.",
+  description: "Discover Camera Looks made for your gear. Choose a visual direction before you shoot, apply the camera-specific settings, and shoot it straight.",
   robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f5f5f7",
+  themeColor: "#F5F2EA",
   colorScheme: "light",
 };
 

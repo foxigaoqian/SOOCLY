@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BeforeAfter } from "@/components/before-after";
+import { BrandMark } from "@/components/brand-mark";
 import { SaveLookButton } from "@/components/save-look-button";
 import {
   getDeviceById,
@@ -27,7 +28,7 @@ export async function generateMetadata({
 
   return {
     title: look.name,
-    description: `${look.summary} See the prototype comparison and device-specific settings on SOOCLY.`,
+    description: `${look.summary} Choose the Look before you shoot, then use the version made for your camera.`,
   };
 }
 
@@ -50,7 +51,7 @@ export default async function LookPage({
   if (!device) notFound();
 
   return (
-    <main id="main-content" className="look-page">
+    <main id="main-content" className="look-page look-page--brand">
       <div className="shell">
         <nav className="breadcrumbs" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
@@ -61,8 +62,9 @@ export default async function LookPage({
         </nav>
       </div>
 
-      <header className="look-hero shell">
-        <p className="eyebrow">{look.kicker}</p>
+      <header className="look-hero shell brand-look-hero">
+        <div className="brand-look-hero__mark" aria-hidden="true"><BrandMark /></div>
+        <p className="eyebrow brand-eyebrow">A SOOCLY Look · {look.kicker}</p>
         <h1>{look.name}</h1>
         <p className="look-hero__summary">{look.summary}</p>
         <div className="look-hero__meta">
@@ -73,7 +75,7 @@ export default async function LookPage({
         <SaveLookButton slug={look.slug} />
       </header>
 
-      <section className="look-cover shell" aria-label={`${look.name} visual direction`}>
+      <section className="look-cover shell brand-look-cover" aria-label={`${look.name} visual direction`}>
         <div className="look-cover__frame">
           <Image
             src={look.coverImage}
@@ -83,6 +85,10 @@ export default async function LookPage({
             sizes="(max-width: 900px) 94vw, 1240px"
           />
           <div className="look-cover__shade" aria-hidden="true" />
+          <div className="brand-look-cover__stamp" aria-hidden="true">
+            <span><i /><i /></span>
+            <b>SOOCLY LOOK</b>
+          </div>
           <div className="look-cover__caption">
             <span>{device.shortLabel}</span>
             <strong>{look.name}</strong>
@@ -90,11 +96,11 @@ export default async function LookPage({
         </div>
       </section>
 
-      <section className="look-comparison shell" aria-labelledby="comparison-title">
-        <div className="center-heading">
-          <p className="eyebrow">See what changes</p>
-          <h2 id="comparison-title">Default. Then {look.name}.</h2>
-          <p>Drag directly across the photograph to compare the two visual directions.</p>
+      <section className="look-comparison shell brand-look-comparison" aria-labelledby="comparison-title">
+        <div className="center-heading brand-center-heading">
+          <p className="eyebrow brand-eyebrow">The SOOCLY Split</p>
+          <h2 id="comparison-title">See it before you shoot it.</h2>
+          <p>Drag across the photograph to compare the default direction with {look.name}.</p>
         </div>
         <BeforeAfter
           image={look.coverImage}
@@ -104,12 +110,12 @@ export default async function LookPage({
         />
       </section>
 
-      <section className="device-version-section" aria-labelledby="device-version-title">
+      <section className="device-version-section brand-device-version" aria-labelledby="device-version-title">
         <div className="shell device-version-section__inner">
           <div>
-            <p className="eyebrow">Built for your gear</p>
-            <h2 id="device-version-title">Choose the camera version.</h2>
-            <p>The Look stays the same. The implementation changes with the device.</p>
+            <p className="eyebrow">One Look. Different cameras.</p>
+            <h2 id="device-version-title">Made for your gear.</h2>
+            <p>The visual idea stays the same. The implementation changes with the camera.</p>
           </div>
           <div className="variant-switcher" aria-label="Choose device version">
             {variants.map((item) => {
@@ -133,10 +139,10 @@ export default async function LookPage({
       </section>
 
       <section className="look-details shell" aria-labelledby="settings-title">
-        <div className="settings-panel">
+        <div className="settings-panel brand-settings-panel">
           <div className="settings-panel__header">
             <div>
-              <p className="eyebrow">{device.brand} {device.model}</p>
+              <p className="eyebrow brand-eyebrow">{device.brand} {device.model}</p>
               <h2 id="settings-title">The settings behind the Look.</h2>
             </div>
             <span className="status-chip">Unverified Demo</span>
@@ -173,9 +179,10 @@ export default async function LookPage({
         </aside>
       </section>
 
-      <section className="look-ending shell">
-        <p className="eyebrow">Save it for later</p>
-        <h2>Love the look. Shoot the look.</h2>
+      <section className="look-ending brand-look-ending shell">
+        <div className="brand-look-ending__mark" aria-hidden="true"><BrandMark /></div>
+        <p className="eyebrow brand-eyebrow">Less editing. More shooting.</p>
+        <h2>Love the Look. Set the camera. Go shoot.</h2>
         <SaveLookButton slug={look.slug} />
       </section>
     </main>
