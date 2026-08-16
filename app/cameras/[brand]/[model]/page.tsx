@@ -73,7 +73,7 @@ export default async function CameraPage({
         <nav className="breadcrumbs" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
           <span aria-hidden="true">/</span>
-          <Link href="/#cameras">Cameras</Link>
+          <Link href="/cameras">Cameras</Link>
           <span aria-hidden="true">/</span>
           <span>{device.brand} {device.model}</span>
         </nav>
