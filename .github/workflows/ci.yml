@@ -32,8 +32,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Camera proof status
-        run: npm run proof:status
+      - name: Camera proof intake
+        run: npm run proof:check
 
       - name: Build
         run: npm run build
