@@ -60,12 +60,11 @@ export function CameraLookBrowser({
       </div>
 
       <div className="camera-look-browser__grid look-grid">
-        {filteredLooks.map((look, index) => (
+        {filteredLooks.map((look) => (
           <LookCard
             key={look.id}
             look={look}
             device={device}
-            priority={index < 3}
           />
         ))}
       </div>
