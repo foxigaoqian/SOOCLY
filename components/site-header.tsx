@@ -11,7 +11,7 @@ export function SiteHeader() {
 
         <nav className="site-nav site-nav--v5" aria-label="Primary navigation">
           <Link href="/looks">Looks</Link>
-          <Link href="/#cameras">Cameras</Link>
+          <Link href="/cameras">Cameras</Link>
           <Link className="site-nav__saved" href="/saved">Saved</Link>
         </nav>
 
