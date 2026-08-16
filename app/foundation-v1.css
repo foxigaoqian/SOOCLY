@@ -1,0 +1,309 @@
+.policy-page,
+.not-found-page {
+  color: var(--ink, #111111);
+}
+
+.policy-hero {
+  padding-top: clamp(72px, 10vw, 132px);
+  padding-bottom: clamp(56px, 8vw, 104px);
+}
+
+.policy-hero .breadcrumbs {
+  margin-bottom: clamp(44px, 6vw, 76px);
+}
+
+.policy-hero h1 {
+  max-width: 980px;
+  margin: 12px 0 24px;
+  font-size: clamp(3.4rem, 8vw, 7.6rem);
+  line-height: .9;
+  letter-spacing: -.065em;
+}
+
+.policy-hero__lede {
+  max-width: 760px;
+  margin: 0;
+  color: var(--secondary, #686762);
+  font-size: clamp(1.12rem, 2vw, 1.5rem);
+  line-height: 1.55;
+}
+
+.policy-date {
+  margin: 28px 0 0;
+  font-size: .82rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--secondary, #686762);
+}
+
+.policy-body {
+  display: grid;
+  grid-template-columns: minmax(220px, .72fr) minmax(0, 1.7fr);
+  gap: clamp(48px, 8vw, 124px);
+  padding-bottom: clamp(92px, 12vw, 168px);
+}
+
+.policy-summary {
+  align-self: start;
+  position: sticky;
+  top: 104px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border, #D8D2C6);
+}
+
+.policy-summary__mark {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.policy-summary__mark i,
+.not-found-page__mark i,
+.not-found-page__oo i {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.policy-summary__mark i:first-child,
+.not-found-page__mark i:first-child,
+.not-found-page__oo i:first-child {
+  border: 2px solid var(--ink, #111111);
+}
+
+.policy-summary__mark i:last-child,
+.not-found-page__mark i:last-child,
+.not-found-page__oo i:last-child {
+  margin-left: -7px;
+  background: var(--orange, #FF6A32);
+}
+
+.policy-summary strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.policy-summary p {
+  margin: 0;
+  color: var(--secondary, #686762);
+  line-height: 1.65;
+}
+
+.policy-sections {
+  border-top: 1px solid var(--border, #D8D2C6);
+}
+
+.policy-sections > section {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 22px;
+  padding: 34px 0 40px;
+  border-bottom: 1px solid var(--border, #D8D2C6);
+}
+
+.policy-sections > section > span {
+  padding-top: 5px;
+  color: var(--orange, #FF6A32);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.policy-sections h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+  line-height: 1;
+  letter-spacing: -.035em;
+}
+
+.policy-sections p {
+  max-width: 760px;
+  margin: 0 0 14px;
+  color: var(--secondary, #686762);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.policy-sections p:last-child {
+  margin-bottom: 0;
+}
+
+.policy-sections a {
+  color: var(--ink, #111111);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.policy-ending {
+  margin-bottom: clamp(72px, 10vw, 128px);
+  padding: clamp(42px, 7vw, 82px);
+  background: var(--ink, #111111);
+  color: #fffdf8;
+}
+
+.policy-ending h2 {
+  max-width: 850px;
+  margin: 12px 0 30px;
+  font-size: clamp(2.5rem, 6vw, 5.6rem);
+  line-height: .94;
+  letter-spacing: -.055em;
+}
+
+.policy-ending .brand-eyebrow {
+  color: var(--orange, #FF6A32);
+}
+
+.policy-ending__actions,
+.not-found-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.policy-ending__actions a,
+.not-found-page__actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  font-size: .9rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 220ms ease, background 220ms ease, color 220ms ease;
+}
+
+.policy-ending__actions a:first-child {
+  border-color: var(--orange, #FF6A32);
+  background: var(--orange, #FF6A32);
+  color: var(--ink, #111111);
+}
+
+@media (hover: hover) {
+  .policy-ending__actions a:hover,
+  .not-found-page__actions a:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.not-found-page {
+  position: relative;
+  min-height: min(760px, calc(100vh - 70px));
+  padding-top: clamp(90px, 13vw, 160px);
+  padding-bottom: clamp(80px, 12vw, 150px);
+  overflow: hidden;
+}
+
+.not-found-page__mark {
+  display: flex;
+  margin-bottom: 42px;
+}
+
+.not-found-page__mark i {
+  width: 44px;
+  height: 44px;
+}
+
+.not-found-page h1 {
+  max-width: 980px;
+  margin: 12px 0 0;
+  font-size: clamp(4rem, 10vw, 9rem);
+  line-height: .86;
+  letter-spacing: -.075em;
+}
+
+.not-found-page__line {
+  margin: 8px 0 28px;
+  color: var(--orange, #FF6A32);
+  font-size: clamp(2rem, 5vw, 4.8rem);
+  font-weight: 800;
+  letter-spacing: -.055em;
+}
+
+.not-found-page__copy {
+  max-width: 620px;
+  margin: 0 0 32px;
+  color: var(--secondary, #686762);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  line-height: 1.6;
+}
+
+.not-found-page__actions a:first-child {
+  border-color: var(--orange, #FF6A32);
+  background: var(--orange, #FF6A32);
+  color: var(--ink, #111111);
+}
+
+.not-found-page__code {
+  position: absolute;
+  right: -1vw;
+  bottom: -5vw;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  color: rgba(17, 17, 17, .045);
+  font-size: clamp(12rem, 31vw, 34rem);
+  font-weight: 900;
+  line-height: .7;
+  letter-spacing: -.13em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.not-found-page__oo {
+  display: inline-flex;
+  transform: translateY(.03em) scale(2.4);
+  transform-origin: center;
+}
+
+.not-found-page__oo i {
+  width: 32px;
+  height: 32px;
+}
+
+.not-found-page__oo i:first-child {
+  border-color: rgba(17, 17, 17, .16);
+}
+
+.not-found-page__oo i:last-child {
+  background: rgba(255, 106, 50, .18);
+}
+
+@media (max-width: 760px) {
+  .policy-body {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .policy-summary {
+    position: static;
+  }
+
+  .policy-sections > section {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 14px;
+    padding: 28px 0 32px;
+  }
+
+  .policy-ending {
+    padding: 34px 24px;
+  }
+
+  .not-found-page__code {
+    right: -8vw;
+    bottom: -3vw;
+    font-size: 48vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .policy-ending__actions a,
+  .not-found-page__actions a {
+    transition: none;
+  }
+}
