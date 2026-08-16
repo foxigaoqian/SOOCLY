@@ -3,10 +3,10 @@ import type {
   CameraProofImage,
   LookVariant,
   SameSceneProofPair,
-  VariantVerificationEvidence,
   VerificationStatus,
 } from "@/lib/types";
 import { assertVerificationCoverage } from "@/lib/verification-coverage";
+import { verificationEvidence } from "@/lib/verification-manifest";
 import {
   assertVerificationDataset,
   auditVerificationEvidence,
@@ -17,58 +17,6 @@ export const VERIFICATION_REQUIREMENTS = {
   splitPairs: 3,
 } as const;
 
-function pendingEvidence(
-  variantId: string,
-  cameraLabel: string,
-): VariantVerificationEvidence {
-  return {
-    variantId,
-    settingsValidated: false,
-    rightsConfirmed: false,
-    sampleImages: [],
-    splitPairs: [],
-    notes: [
-      `Awaiting real ${cameraLabel} camera-output samples.`,
-      "Awaiting same-scene Default ↔ Look comparison pairs.",
-    ],
-  };
-}
-
-const verificationEvidence: Record<string, VariantVerificationEvidence> = {
-  "tokyo-midnight-x100vi": pendingEvidence(
-    "tokyo-midnight-x100vi",
-    "Fujifilm X100VI",
-  ),
-  "tokyo-midnight-griv": pendingEvidence(
-    "tokyo-midnight-griv",
-    "Ricoh GR IV",
-  ),
-  "golden-sunday-x100vi": pendingEvidence(
-    "golden-sunday-x100vi",
-    "Fujifilm X100VI",
-  ),
-  "summer-chrome-x100vi": pendingEvidence(
-    "summer-chrome-x100vi",
-    "Fujifilm X100VI",
-  ),
-  "summer-chrome-griv": pendingEvidence(
-    "summer-chrome-griv",
-    "Ricoh GR IV",
-  ),
-  "soft-portra-x100vi": pendingEvidence(
-    "soft-portra-x100vi",
-    "Fujifilm X100VI",
-  ),
-  "neon-rain-griv": pendingEvidence(
-    "neon-rain-griv",
-    "Ricoh GR IV",
-  ),
-  "quiet-morning-griv": pendingEvidence(
-    "quiet-morning-griv",
-    "Ricoh GR IV",
-  ),
-};
-
 // Every LookVariant must have an explicit verification ledger entry. Adding a
 // new camera implementation without one now fails CI/build instead of silently
 // bypassing the proof system.
@@ -76,7 +24,7 @@ assertVerificationCoverage(lookVariants, verificationEvidence);
 
 // This runs whenever the product data is built. A malformed proof entry now
 // fails CI/build instead of silently inflating counts or publishing the wrong
-// camera, role, or status as evidence.
+// camera, role, provenance, or status as evidence.
 assertVerificationDataset(
   lookVariants,
   verificationEvidence,

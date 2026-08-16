@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "proof:status": "tsx scripts/proof-status.ts"
+    "proof:assets": "tsx scripts/proof-assets.ts",
+    "proof:status": "tsx scripts/proof-status.ts",
+    "proof:check": "npm run proof:assets && npm run proof:status"
   },
   "dependencies": {
     "next": "16.3.1",

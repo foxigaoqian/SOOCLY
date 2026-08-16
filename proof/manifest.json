@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "variants": [
+    {
+      "variantId": "tokyo-midnight-x100vi",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "tokyo-midnight-griv",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "golden-sunday-x100vi",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "summer-chrome-x100vi",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "summer-chrome-griv",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "soft-portra-x100vi",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "neon-rain-griv",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    },
+    {
+      "variantId": "quiet-morning-griv",
+      "settingsValidated": false,
+      "rightsConfirmed": false,
+      "sampleImages": [],
+      "splitPairs": [],
+      "notes": ["Awaiting real-camera output and same-scene proof."]
+    }
+  ]
+}
