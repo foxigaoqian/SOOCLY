@@ -18,10 +18,13 @@ export type VerificationIssue = {
     | "duplicate-pair-id"
     | "sample-device-mismatch"
     | "sample-role-mismatch"
+    | "sample-source-mismatch"
     | "pair-device-mismatch"
     | "pair-role-mismatch"
+    | "pair-source-mismatch"
     | "pair-image-id-collision"
     | "missing-image-field"
+    | "missing-capture-time"
     | "missing-scene"
     | "verified-before-ready"
     | "testing-without-evidence"
@@ -50,6 +53,14 @@ function imageHasRequiredFields(image: CameraProofImage) {
     hasText(image.creator) &&
     hasText(image.rights)
   );
+}
+
+function imageHasCaptureTime(image: CameraProofImage) {
+  return hasText(image.capturedAt);
+}
+
+function hasRealCameraSource(image: CameraProofImage) {
+  return image.source === "real-camera-output";
 }
 
 export function auditVerificationEvidence(
@@ -96,6 +107,33 @@ export function auditVerificationEvidence(
         severity: "error",
         code: "missing-image-field",
         message: `Sample ${image.id || "(missing id)"} is missing src, alt, creator, rights, or id.`,
+      });
+      valid = false;
+    }
+
+    if (!imageHasCaptureTime(image)) {
+      issues.push({
+        severity: "error",
+        code: "missing-capture-time",
+        message: `Sample ${image.id || "(missing id)"} needs capturedAt metadata.`,
+      });
+      valid = false;
+    }
+
+    if (!hasText(image.scene)) {
+      issues.push({
+        severity: "error",
+        code: "missing-scene",
+        message: `Sample ${image.id || "(missing id)"} needs a scene label.`,
+      });
+      valid = false;
+    }
+
+    if (!hasRealCameraSource(image)) {
+      issues.push({
+        severity: "error",
+        code: "sample-source-mismatch",
+        message: `Sample ${image.id || "(missing id)"} must declare source real-camera-output.`,
       });
       valid = false;
     }
@@ -149,6 +187,24 @@ export function auditVerificationEvidence(
         severity: "error",
         code: "missing-image-field",
         message: `Same-scene pair ${pair.id} has an image missing src, alt, creator, rights, or id.`,
+      });
+      valid = false;
+    }
+
+    if (!imageHasCaptureTime(pair.defaultImage) || !imageHasCaptureTime(pair.lookImage)) {
+      issues.push({
+        severity: "error",
+        code: "missing-capture-time",
+        message: `Same-scene pair ${pair.id} needs capturedAt metadata on both images.`,
+      });
+      valid = false;
+    }
+
+    if (!hasRealCameraSource(pair.defaultImage) || !hasRealCameraSource(pair.lookImage)) {
+      issues.push({
+        severity: "error",
+        code: "pair-source-mismatch",
+        message: `Same-scene pair ${pair.id} must use real-camera-output for both images.`,
       });
       valid = false;
     }
