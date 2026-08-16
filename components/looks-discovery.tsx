@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import proofStyles from "@/components/looks-discovery-proof.module.css";
+import { getLookProofState } from "@/lib/look-proof-state";
 import type { Device, Look, LookVariant } from "@/lib/types";
 
 const FILTERS = [
@@ -206,6 +208,13 @@ export function LooksDiscovery({
                   : supportedDevices[0]?.id;
               const href = `/looks/${look.slug}${targetDeviceId ? `?device=${targetDeviceId}` : ""}`;
               const discoveryTags = DISCOVERY_TAGS[look.slug] ?? [];
+              const proof = getLookProofState(look, activeDevice);
+              const proofToneClass =
+                proof.tone === "verified"
+                  ? proofStyles.verified
+                  : proof.tone === "testing"
+                    ? proofStyles.testing
+                    : proofStyles.prototype;
 
               return (
                 <article
@@ -215,14 +224,16 @@ export function LooksDiscovery({
                 >
                   <Link className="looks-discovery-card__media" href={href}>
                     <Image
-                      src={look.coverImage}
-                      alt={`Editorial visual reference for ${look.name}`}
+                      src={proof.imageSrc ?? look.coverImage}
+                      alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
                       fill
                       sizes="(max-width: 720px) 94vw, (max-width: 1100px) 47vw, 31vw"
                     />
-                    <div className="looks-discovery-card__topline" aria-hidden="true">
-                      <span>SOOCLY LOOK</span>
-                      <span>0{index + 1}</span>
+                    <div className="looks-discovery-card__topline">
+                      <span className={`${proofStyles.badge} ${proofToneClass}`}>
+                        {proof.label}
+                      </span>
+                      <span aria-hidden="true">0{index + 1}</span>
                     </div>
                     <div className="looks-discovery-card__hover" aria-hidden="true">
                       <span className="looks-discovery-card__hover-oo"><i /><i /></span>
