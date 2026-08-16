@@ -10,6 +10,7 @@ import {
   parseGearSnapshot,
   subscribeGear,
 } from "@/lib/gear-store";
+import { getLookProofState } from "@/lib/look-proof-state";
 import {
   clearSavedLooks,
   getSavedSnapshot,
@@ -119,13 +120,14 @@ export function SavedLooks() {
             const preferredDevice =
               gearDevices.find((device) => compatibleIds.includes(device.id)) ?? supportedDevices[0];
             const href = `/looks/${look.slug}${preferredDevice ? `?device=${preferredDevice.id}` : ""}`;
+            const proof = getLookProofState(look, preferredDevice);
 
             return (
               <article className="saved-card" key={look.id}>
                 <Link className="saved-card__media" href={href} aria-label={`Open ${look.name}`}>
                   <Image
-                    src={look.coverImage}
-                    alt={`Editorial visual reference for ${look.name}`}
+                    src={proof.imageSrc ?? look.coverImage}
+                    alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
                     fill
                     priority={index < 2}
                     sizes="(max-width: 760px) 94vw, 46vw"
@@ -133,7 +135,7 @@ export function SavedLooks() {
                   <span className="saved-card__shade" aria-hidden="true" />
                   <span className="saved-card__index" aria-hidden="true">0{index + 1}</span>
                   <span className="saved-card__open">
-                    Open {preferredDevice ? `for ${preferredDevice.shortLabel}` : "Look"} ↗
+                    {proof.label} · Open {preferredDevice ? `for ${preferredDevice.shortLabel}` : "Look"} ↗
                   </span>
                 </Link>
 
@@ -167,7 +169,7 @@ export function SavedLooks() {
                     </div>
                     {preferredDevice ? (
                       <span className="saved-card__preferred">
-                        {gearDeviceIds.includes(preferredDevice.id) ? "Matches My Gear" : "Default camera"}
+                        {proof.label} · {gearDeviceIds.includes(preferredDevice.id) ? "Matches My Gear" : "Default camera"}
                       </span>
                     ) : null}
                   </div>
@@ -199,13 +201,14 @@ export function SavedLooks() {
                 gearDevices.find((device) => compatibleIds.includes(device.id)) ??
                 devices.find((device) => compatibleIds.includes(device.id));
               const href = `/looks/${look.slug}${preferredDevice ? `?device=${preferredDevice.id}` : ""}`;
+              const proof = getLookProofState(look, preferredDevice);
 
               return (
                 <Link className="saved-next-card" href={href} key={look.id}>
                   <span className="saved-next-card__media">
                     <Image
-                      src={look.coverImage}
-                      alt={`Visual reference for ${look.name}`}
+                      src={proof.imageSrc ?? look.coverImage}
+                      alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
                       fill
                       sizes="(max-width: 760px) 82vw, 30vw"
                     />
@@ -213,7 +216,7 @@ export function SavedLooks() {
                   <span className="saved-next-card__copy">
                     <small>{look.kicker}</small>
                     <strong>{look.name}</strong>
-                    <span>{preferredDevice ? `${preferredDevice.shortLabel} version` : "Open Look"} ↗</span>
+                    <span>{proof.label} · {preferredDevice ? `${preferredDevice.shortLabel} version` : "Open Look"} ↗</span>
                   </span>
                 </Link>
               );
