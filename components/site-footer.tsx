@@ -17,7 +17,7 @@ export function SiteFooter() {
           <div>
             <p className="site-footer__heading">Explore</p>
             <Link href="/looks">Looks</Link>
-            <Link href="/#cameras">Cameras</Link>
+            <Link href="/cameras">Cameras</Link>
             <Link href="/saved">Saved</Link>
           </div>
           <div>

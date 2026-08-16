@@ -11,6 +11,7 @@ import "./interaction-v6.css";
 import "./look-detail-v1.css";
 import "./looks-discovery-v1.css";
 import "./camera-detail-v1.css";
+import "./cameras-index-v1.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://soocly.com"),
