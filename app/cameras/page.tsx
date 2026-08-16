@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GearDeviceButton } from "@/components/gear-device-button";
 import { MotionReveal } from "@/components/motion-reveal";
 import { devices, getLooksForDevice } from "@/lib/demo-data";
+import { getLookProofState } from "@/lib/look-proof-state";
 
 export const metadata: Metadata = {
   title: "Supported Cameras",
@@ -64,6 +65,20 @@ export default function CamerasPage() {
             const primary = cameraLooks[0];
             const secondary = cameraLooks[1] ?? primary;
             const tertiary = cameraLooks[2] ?? secondary;
+            const primaryProof = primary ? getLookProofState(primary, device) : undefined;
+            const secondaryProof = secondary ? getLookProofState(secondary, device) : undefined;
+            const tertiaryProof = tertiary ? getLookProofState(tertiary, device) : undefined;
+            const proofStates = cameraLooks.map((look) => getLookProofState(look, device));
+            const verifiedCount = proofStates.filter((proof) => proof.tone === "verified").length;
+            const testingCount = proofStates.filter((proof) => proof.tone === "testing").length;
+            const proofLabel =
+              cameraLooks.length > 0 && verifiedCount === cameraLooks.length
+                ? `${verifiedCount} verified Looks`
+                : verifiedCount > 0
+                  ? `${verifiedCount}/${cameraLooks.length} verified`
+                  : testingCount > 0
+                    ? `${testingCount} in testing`
+                    : "Prototype references";
             const href = `/cameras/${device.brandSlug}/${device.modelSlug}`;
 
             return (
@@ -77,8 +92,8 @@ export default function CamerasPage() {
                     {primary ? (
                       <span className="camera-index-card__image camera-index-card__image--main">
                         <Image
-                          src={primary.coverImage}
-                          alt={`Visual reference for ${primary.name}`}
+                          src={primaryProof?.imageSrc ?? primary.coverImage}
+                          alt={primaryProof?.imageAlt ?? `Prototype visual reference for ${primary.name}`}
                           fill
                           priority={index === 0}
                           sizes="(max-width: 820px) 92vw, 43vw"
@@ -88,7 +103,7 @@ export default function CamerasPage() {
                     {secondary ? (
                       <span className="camera-index-card__image camera-index-card__image--small camera-index-card__image--one">
                         <Image
-                          src={secondary.coverImage}
+                          src={secondaryProof?.imageSrc ?? secondary.coverImage}
                           alt=""
                           fill
                           sizes="(max-width: 820px) 38vw, 16vw"
@@ -98,7 +113,7 @@ export default function CamerasPage() {
                     {tertiary ? (
                       <span className="camera-index-card__image camera-index-card__image--small camera-index-card__image--two">
                         <Image
-                          src={tertiary.coverImage}
+                          src={tertiaryProof?.imageSrc ?? tertiary.coverImage}
                           alt=""
                           fill
                           sizes="(max-width: 820px) 38vw, 16vw"
@@ -108,7 +123,7 @@ export default function CamerasPage() {
                     <span className="camera-index-card__overlay" aria-hidden="true" />
                     <span className="camera-index-card__stamp" aria-hidden="true"><i /><i /></span>
                     <span className="camera-index-card__visual-label">
-                      <small>{cameraLooks.length.toString().padStart(2, "0")} Looks available</small>
+                      <small>{cameraLooks.length.toString().padStart(2, "0")} Looks · {proofLabel}</small>
                       <strong>Explore {device.shortLabel} ↗</strong>
                     </span>
                   </Link>

@@ -7,9 +7,14 @@ import { CameraPicker } from "@/components/camera-picker";
 import { LookCard } from "@/components/look-card";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PrototypeNote } from "@/components/prototype-note";
-import { devices, looks } from "@/lib/demo-data";
+import { devices, getVariant, looks } from "@/lib/demo-data";
+import { getLookProofState } from "@/lib/look-proof-state";
 import { SITE_DESCRIPTION } from "@/lib/site-config";
 import { buildSocialMetadata } from "@/lib/social-metadata";
+import {
+  getRenderableCameraProof,
+  isPubliclyVerified,
+} from "@/lib/verification-data";
 
 const homeTitle = "SOOCLY — Choose the Look Before You Shoot.";
 
@@ -24,6 +29,16 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const featured = looks[0];
+  const featuredDevice = devices[0];
+  const featuredVariant = getVariant(featured.id, featuredDevice.id);
+  const featuredProof = getLookProofState(featured, featuredDevice);
+  const featuredCameraProof = featuredVariant
+    ? getRenderableCameraProof(featuredVariant)
+    : { sampleImages: [], splitPairs: [] };
+  const featuredSplitPair = featuredCameraProof.splitPairs[0];
+  const featuredVerified = featuredVariant
+    ? isPubliclyVerified(featuredVariant)
+    : false;
 
   return (
     <main id="main-content">
@@ -50,8 +65,8 @@ export default function HomePage() {
           aria-label="Explore Tokyo Midnight"
         >
           <Image
-            src={featured.coverImage}
-            alt="Editorial Tokyo street demo for the Tokyo Midnight prototype"
+            src={featuredProof.imageSrc ?? featured.coverImage}
+            alt={featuredProof.imageAlt ?? "Prototype visual reference for Tokyo Midnight"}
             fill
             priority
             sizes="(max-width: 900px) 94vw, 1240px"
@@ -62,11 +77,11 @@ export default function HomePage() {
               <i />
               <i />
             </span>
-            <span>SOOCLY LOOK</span>
+            <span>SOOCLY · {featuredProof.label}</span>
           </div>
           <div className="editorial-hero__caption">
             <div>
-              <span>Featured Look</span>
+              <span>{featuredProof.tone === "prototype" ? "Prototype reference" : featuredProof.label}</span>
               <strong>{featured.name}</strong>
             </div>
             <span className="editorial-hero__cta">Explore the Look ↗</span>
@@ -96,9 +111,12 @@ export default function HomePage() {
               alt={featured.name}
               filter={featured.previewFilter}
               lookLabel={featured.name}
+              proofPair={featuredSplitPair}
+              deviceName={`${featuredDevice.brand} ${featuredDevice.model}`}
+              publiclyVerified={featuredVerified}
             />
             <div className="comparison-showcase__footer brand-split-footer">
-              <span>Fujifilm X100VI</span>
+              <span>{featuredDevice.brand} {featuredDevice.model}</span>
               <Link href="/looks/tokyo-midnight?device=fuji-x100vi">Make this Look yours ↗</Link>
             </div>
           </MotionReveal>

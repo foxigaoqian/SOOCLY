@@ -12,6 +12,7 @@ import {
   subscribeGear,
   toggleGearDevice,
 } from "@/lib/gear-store";
+import { getLookProofState } from "@/lib/look-proof-state";
 
 export function MyGear() {
   const snapshot = useSyncExternalStore(
@@ -62,6 +63,19 @@ export function MyGear() {
               const cameraLooks = getLooksForDevice(device.id);
               const primary = cameraLooks[0];
               const secondary = cameraLooks[1] ?? primary;
+              const primaryProof = primary ? getLookProofState(primary, device) : undefined;
+              const secondaryProof = secondary ? getLookProofState(secondary, device) : undefined;
+              const proofStates = cameraLooks.map((look) => getLookProofState(look, device));
+              const verifiedCount = proofStates.filter((proof) => proof.tone === "verified").length;
+              const testingCount = proofStates.filter((proof) => proof.tone === "testing").length;
+              const proofLabel =
+                cameraLooks.length > 0 && verifiedCount === cameraLooks.length
+                  ? `${verifiedCount} verified`
+                  : verifiedCount > 0
+                    ? `${verifiedCount}/${cameraLooks.length} verified`
+                    : testingCount > 0
+                      ? `${testingCount} testing`
+                      : "Prototype references";
               const href = `/cameras/${device.brandSlug}/${device.modelSlug}`;
 
               return (
@@ -70,8 +84,8 @@ export function MyGear() {
                     {primary ? (
                       <span className="my-gear-device__image my-gear-device__image--main">
                         <Image
-                          src={primary.coverImage}
-                          alt={`Visual reference for ${primary.name}`}
+                          src={primaryProof?.imageSrc ?? primary.coverImage}
+                          alt={primaryProof?.imageAlt ?? `Prototype visual reference for ${primary.name}`}
                           fill
                           sizes="(max-width: 760px) 92vw, 42vw"
                         />
@@ -80,7 +94,7 @@ export function MyGear() {
                     {secondary ? (
                       <span className="my-gear-device__image my-gear-device__image--secondary">
                         <Image
-                          src={secondary.coverImage}
+                          src={secondaryProof?.imageSrc ?? secondary.coverImage}
                           alt=""
                           fill
                           sizes="(max-width: 760px) 40vw, 18vw"
@@ -89,7 +103,7 @@ export function MyGear() {
                     ) : null}
                     <span className="my-gear-device__shade" aria-hidden="true" />
                     <span className="my-gear-device__visual-copy">
-                      <small>{cameraLooks.length.toString().padStart(2, "0")} Looks available</small>
+                      <small>{cameraLooks.length.toString().padStart(2, "0")} Looks · {proofLabel}</small>
                       <strong>Open {device.shortLabel} ↗</strong>
                     </span>
                   </Link>
@@ -151,24 +165,27 @@ export function MyGear() {
             </div>
 
             <div className="my-gear-look-grid">
-              {cameraLooks.map((look) => (
-                <article className="my-gear-look" key={look.id}>
-                  <Link className="my-gear-look__image" href={`/looks/${look.slug}?device=${device.id}`}>
-                    <Image
-                      src={look.coverImage}
-                      alt={`Editorial visual reference for ${look.name}`}
-                      fill
-                      sizes="(max-width: 720px) 92vw, 31vw"
-                    />
-                    <span>Open Look ↗</span>
-                  </Link>
-                  <div className="my-gear-look__body">
-                    <p>{look.kicker}</p>
-                    <h3><Link href={`/looks/${look.slug}?device=${device.id}`}>{look.name}</Link></h3>
-                    <small>{device.shortLabel} version</small>
-                  </div>
-                </article>
-              ))}
+              {cameraLooks.map((look) => {
+                const proof = getLookProofState(look, device);
+                return (
+                  <article className="my-gear-look" key={look.id}>
+                    <Link className="my-gear-look__image" href={`/looks/${look.slug}?device=${device.id}`}>
+                      <Image
+                        src={proof.imageSrc ?? look.coverImage}
+                        alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
+                        fill
+                        sizes="(max-width: 720px) 92vw, 31vw"
+                      />
+                      <span>{proof.label} · Open Look ↗</span>
+                    </Link>
+                    <div className="my-gear-look__body">
+                      <p>{look.kicker}</p>
+                      <h3><Link href={`/looks/${look.slug}?device=${device.id}`}>{look.name}</Link></h3>
+                      <small>{device.shortLabel} version · {proof.label}</small>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </section>
         );

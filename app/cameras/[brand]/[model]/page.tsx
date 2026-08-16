@@ -8,6 +8,7 @@ import { LookCard } from "@/components/look-card";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PrototypeNote } from "@/components/prototype-note";
 import { devices, getDevice, getLooksForDevice } from "@/lib/demo-data";
+import { getLookProofState } from "@/lib/look-proof-state";
 
 export function generateStaticParams() {
   return devices.map((device) => ({
@@ -66,6 +67,19 @@ export default async function CameraPage({
   const copy = getCameraCopy(device.id);
   const heroPrimary = cameraLooks[0];
   const heroSecondary = cameraLooks[1] ?? cameraLooks[0];
+  const heroPrimaryProof = heroPrimary ? getLookProofState(heroPrimary, device) : undefined;
+  const heroSecondaryProof = heroSecondary ? getLookProofState(heroSecondary, device) : undefined;
+  const proofStates = cameraLooks.map((look) => getLookProofState(look, device));
+  const verifiedCount = proofStates.filter((proof) => proof.tone === "verified").length;
+  const testingCount = proofStates.filter((proof) => proof.tone === "testing").length;
+  const collectionProofLabel =
+    cameraLooks.length > 0 && verifiedCount === cameraLooks.length
+      ? "All camera-verified"
+      : verifiedCount > 0
+        ? `${verifiedCount}/${cameraLooks.length} verified`
+        : testingCount > 0
+          ? `${testingCount} in testing`
+          : "Prototype collection";
 
   return (
     <main id="main-content" className="camera-detail-v1">
@@ -95,11 +109,11 @@ export default async function CameraPage({
           <div className="camera-detail-hero__meta" aria-label="Camera Look availability">
             <div>
               <strong>{cameraLooks.length.toString().padStart(2, "0")}</strong>
-              <span>Prototype Looks</span>
+              <span>Camera Looks</span>
             </div>
             <div>
               <strong>{device.shortLabel}</strong>
-              <span>{copy.systemLabel}</span>
+              <span>{collectionProofLabel}</span>
             </div>
           </div>
         </MotionReveal>
@@ -112,15 +126,15 @@ export default async function CameraPage({
               aria-label={`Open ${heroPrimary.name} for ${device.shortLabel}`}
             >
               <Image
-                src={heroPrimary.coverImage}
-                alt={`Editorial demo for ${heroPrimary.name}`}
+                src={heroPrimaryProof?.imageSrc ?? heroPrimary.coverImage}
+                alt={heroPrimaryProof?.imageAlt ?? `Prototype visual reference for ${heroPrimary.name}`}
                 fill
                 priority
                 sizes="(max-width: 900px) 94vw, 58vw"
               />
               <span className="camera-detail-hero__image-shade" aria-hidden="true" />
               <span className="camera-detail-hero__caption">
-                <small>Featured Look</small>
+                <small>{heroPrimaryProof?.label ?? "Prototype"} · Featured Look</small>
                 <strong>{heroPrimary.name}</strong>
               </span>
             </Link>
@@ -133,14 +147,14 @@ export default async function CameraPage({
               aria-label={`Open ${heroSecondary.name} for ${device.shortLabel}`}
             >
               <Image
-                src={heroSecondary.coverImage}
-                alt={`Editorial demo for ${heroSecondary.name}`}
+                src={heroSecondaryProof?.imageSrc ?? heroSecondary.coverImage}
+                alt={heroSecondaryProof?.imageAlt ?? `Prototype visual reference for ${heroSecondary.name}`}
                 fill
                 sizes="(max-width: 900px) 48vw, 24vw"
               />
               <span className="camera-detail-hero__image-shade" aria-hidden="true" />
               <span className="camera-detail-hero__caption camera-detail-hero__caption--small">
-                <small>Another direction</small>
+                <small>{heroSecondaryProof?.label ?? "Prototype"} · Another direction</small>
                 <strong>{heroSecondary.name}</strong>
               </span>
             </Link>
