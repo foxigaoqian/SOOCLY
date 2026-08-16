@@ -41,13 +41,21 @@ export function subscribeSaved(callback: () => void) {
   };
 }
 
+function writeSavedLooks(lookSlugs: string[]) {
+  const payload: SavedPayload = { version: 1, lookSlugs };
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  window.dispatchEvent(new Event(SAVED_EVENT));
+}
+
 export function toggleSavedLook(slug: string) {
   const current = parseSavedSnapshot(getSavedSnapshot());
   const next = current.includes(slug)
     ? current.filter((item) => item !== slug)
     : [...current, slug];
 
-  const payload: SavedPayload = { version: 1, lookSlugs: next };
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  window.dispatchEvent(new Event(SAVED_EVENT));
+  writeSavedLooks(next);
+}
+
+export function clearSavedLooks() {
+  writeSavedLooks([]);
 }
