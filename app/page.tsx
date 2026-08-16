@@ -123,7 +123,7 @@ export default function HomePage() {
         <MotionReveal variant="fade">
           <div className="look-grid">
             {looks.map((look, index) => (
-              <LookCard key={look.id} look={look} priority={index < 3} />
+              <LookCard key={look.id} look={look} priority={index === 0} />
             ))}
           </div>
         </MotionReveal>
@@ -171,7 +171,7 @@ export default function HomePage() {
           <p className="eyebrow brand-eyebrow">Shoot it straight</p>
           <h2 id="brand-statement-title">Pick a Look. Set your camera. Go shoot.</h2>
           <p>SOOCLY should get you away from the screen and back behind the camera.</p>
-          <Link className="brand-ending__action" href="/#looks">Explore Looks <span aria-hidden="true">↗</span></Link>
+          <Link className="brand-ending__action" href="/looks">Explore Looks <span aria-hidden="true">↗</span></Link>
         </section>
       </MotionReveal>
     </main>

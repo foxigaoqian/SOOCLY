@@ -173,8 +173,8 @@ export default async function CameraPage({
 
         <MotionReveal variant="fade">
           <div className="look-grid camera-featured__grid">
-            {featuredLooks.map((look, index) => (
-              <LookCard key={look.id} look={look} device={device} priority={index < 3} />
+            {featuredLooks.map((look) => (
+              <LookCard key={look.id} look={look} device={device} />
             ))}
           </div>
         </MotionReveal>
