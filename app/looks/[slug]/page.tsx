@@ -74,7 +74,7 @@ export default async function LookPage({
         <nav className="breadcrumbs" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
           <span aria-hidden="true">/</span>
-          <Link href="/#looks">Looks</Link>
+          <Link href="/looks">Looks</Link>
           <span aria-hidden="true">/</span>
           <span>{look.name}</span>
         </nav>
@@ -358,9 +358,9 @@ export default async function LookPage({
             </div>
           </MotionReveal>
           <div className="look-v1-related-grid">
-            {relatedLooks.map((related, index) => (
+            {relatedLooks.map((related) => (
               <MotionReveal variant="rise" key={related.id}>
-                <LookCard look={related} device={device} priority={index === 0} />
+                <LookCard look={related} device={device} />
               </MotionReveal>
             ))}
           </div>
@@ -375,7 +375,7 @@ export default async function LookPage({
           <p>{look.name} is ready to save. The prototype settings stay clearly marked until real-camera verification is complete.</p>
           <div className="look-v1-ending__actions">
             <SaveLookButton slug={look.slug} />
-            <Link href="/#looks" className="look-v1-text-action">Explore another Look <span aria-hidden="true">↗</span></Link>
+            <Link href="/looks" className="look-v1-text-action">Explore another Look <span aria-hidden="true">↗</span></Link>
           </div>
         </MotionReveal>
       </section>
