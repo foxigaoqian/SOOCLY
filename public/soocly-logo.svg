@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 64" role="img" aria-labelledby="title desc">
+  <title id="title">SOOCLY</title>
+  <desc id="desc">SOOCLY wordmark with an outlined original circle and exposure-orange Look circle.</desc>
+  <g fill="#111111" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="51" letter-spacing="-2">
+    <text x="0" y="49">S</text>
+    <text x="121" y="49">CLY</text>
+  </g>
+  <circle cx="72" cy="32" r="22.5" fill="none" stroke="#111111" stroke-width="8"/>
+  <circle cx="104" cy="32" r="23.5" fill="#FF6A32"/>
+  <path d="M88.4 15.2a23.5 23.5 0 0 0 0 33.6A22.4 22.4 0 0 0 94.5 32a22.4 22.4 0 0 0-6.1-16.8Z" fill="#C94A20" opacity=".72"/>
+</svg>
