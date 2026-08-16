@@ -15,12 +15,12 @@ export type LookShootingGuide = {
 };
 
 const taglines: Record<string, string> = {
-  "tokyo-midnight": "Cool streets. Warm light. After dark.",
-  "golden-sunday": "Warm skin. Soft sun. Slow afternoons.",
-  "summer-chrome": "Clear color. Bright days. Clean edges.",
-  "soft-portra": "Muted color. Gentle skin. Everyday light.",
-  "neon-rain": "Wet streets. Electric color. Dense nights.",
-  "quiet-morning": "Open shadows. Soft light. Slow frames.",
+  "tokyo-midnight": "Cool streets. Warm practicals. After dark.",
+  "golden-sunday": "Warm skin. Low sun. Easy afternoons.",
+  "summer-chrome": "Clean whites. Bright skies. Graphic color.",
+  "soft-portra": "Muted color. Gentle skin. Quiet light.",
+  "neon-rain": "Wet streets. Electric color. Dense reflections.",
+  "quiet-morning": "Open shadows. Soft weather. Slow frames.",
 };
 
 const visualReferences: Record<string, LookVisualReference[]> = {
@@ -55,31 +55,115 @@ const visualReferences: Record<string, LookVisualReference[]> = {
 const shootingGuides: Record<string, LookShootingGuide> = {
   "tokyo-midnight-x100vi": {
     exposureAdvice:
-      "Start around -1/3 to -2/3 EV when bright signs dominate the frame. Protect illuminated lettering and let the street stay naturally dark instead of lifting every shadow.",
+      "Start around -1/3 to -2/3 EV when bright signs dominate the frame. Protect illuminated lettering and let the street stay naturally dark. If you keep DR400 selected, remember the X100VI makes it available from ISO 500 upward.",
     sceneSuggestions: [
-      "Wet pavement and reflected signage",
-      "Train entrances and convenience stores",
-      "Narrow streets with mixed LED light",
-      "People framed against warm practical lights",
+      "Convenience stores against a darker street",
+      "Subway exits with warm practical light",
+      "Narrow alleys with two or three competing light sources",
+      "Passing figures rim-lit by storefronts",
     ],
     colorNotes:
-      "Neutral clothing, black surfaces, red signage, cyan LEDs, and warm tungsten points give the palette room to separate. Let one or two strong colors lead the frame.",
+      "Let cool ambient light and warmer storefront light share the frame. Reds, cyan-blue LEDs, black surfaces, and neutral clothing give the palette enough separation without needing every sign to be saturated.",
     avoid:
-      "Flat midday light, aggressively lifted shadows, and scenes dominated by green fluorescent spill. The Look works best when darkness is allowed to remain part of the photograph.",
+      "Heavy rain-reflection scenes belong more naturally to Neon Rain. Also avoid flat midday light, aggressively lifted shadows, and frames dominated by green fluorescent spill.",
   },
   "tokyo-midnight-griv": {
     exposureAdvice:
-      "Keep exposure compensation within easy reach and bias slightly dark around bright storefronts. Watch clipped reds and blues in electronic signs before worrying about shadow detail.",
+      "Keep exposure compensation within easy reach and bias slightly dark around bright storefronts. Watch clipped reds and blues in electronic signs before worrying about shadow detail; the GR IV is being used here as a fast mixed-light street camera.",
     sceneSuggestions: [
-      "Fast street snapshots after blue hour",
-      "Reflections in windows and pavement",
-      "Compact storefronts with mixed color",
+      "Fast snapshots outside late-night shops",
+      "Station entrances with mixed cool and warm light",
       "Passing figures under practical light",
+      "Simple street frames with one dominant sign",
     ],
     colorNotes:
-      "The direction benefits from simple frames with a few saturated light sources. Strong reds, deep blues, and warm interior light work better than a scene filled with every color at once.",
+      "The direction works best when one or two saturated sources lead the frame. Pair deep blues or cyan ambient light with warm interiors instead of filling the image with every available color.",
     avoid:
-      "Over-bright files, heavy green casts, and featureless black subjects with no edge light. Keep enough local light in the scene to define shape.",
+      "Wet-pavement reflection studies are the territory of Neon Rain. Avoid over-bright files, featureless black subjects with no edge light, and broad green casts that flatten the color separation.",
+  },
+  "golden-sunday-x100vi": {
+    exposureAdvice:
+      "Expose for faces and the bright edge of the sun rather than for deep background shadows. A small negative correction can help protect warm highlights in backlight. With DR200 selected, the X100VI makes that setting available from ISO 250 upward.",
+    sceneSuggestions: [
+      "Backlit portraits in the final hour of daylight",
+      "Travel details catching low side light",
+      "Outdoor cafés with warm reflected sun",
+      "Buildings and foliage with long late-day shadows",
+    ],
+    colorNotes:
+      "Look for naturally amber light, warm skin, cream surfaces, faded blue, and sunlit greens. The warmth should come from the scene first; the recipe is meant to organize it, not manufacture sunset indoors.",
+    avoid:
+      "Cool fluorescent interiors, deep blue-hour scenes, and neutral midday light with no warm source. If the scene itself is cold, forcing Golden Sunday onto it usually turns skin and whites muddy rather than luminous.",
+  },
+  "summer-chrome-x100vi": {
+    exposureAdvice:
+      "Keep bright walls and clouds just below clipping and let the shadows stay crisp enough to describe shape. This Look likes clean high-key areas more than rescued highlights. With DR200 selected, the X100VI requires ISO 250 or higher for that dynamic-range mode.",
+    sceneSuggestions: [
+      "White architecture against blue sky",
+      "Hard-sun travel streets",
+      "Graphic signs, awnings, and painted walls",
+      "Open landscapes with clean blue and green separation",
+    ],
+    colorNotes:
+      "Build frames around clean whites, restrained greens, sky blue, concrete, and one stronger accent color. The goal is crisp separation and a slightly graphic feel rather than vintage warmth.",
+    avoid:
+      "Murky tungsten interiors, heavy haze, and scenes where every surface is already warm. Summer Chrome works best when daylight gives whites and blues a clear reference point.",
+  },
+  "summer-chrome-griv": {
+    exposureAdvice:
+      "Use highlight-weighted metering or a small negative correction when white buildings and bright skies dominate. Keep the file clean rather than opening every dark area; the graphic shape of the scene matters more than maximum shadow recovery.",
+    sceneSuggestions: [
+      "Bright city blocks with hard-edged shadows",
+      "Travel architecture and painted facades",
+      "Minimal street frames under high sun",
+      "Blue-sky scenes with a single saturated accent",
+    ],
+    colorNotes:
+      "Positive Film is being used here as the starting point for firm daylight color, then restrained so the frame stays graphic rather than postcard-saturated. Prioritize blue, green, white, stone, and primary-color details.",
+    avoid:
+      "Low warm interior light, rainy night scenes, and milky overcast with no color separation. Quiet Morning is the better direction when the weather turns soft and low-contrast.",
+  },
+  "soft-portra-x100vi": {
+    exposureAdvice:
+      "Expose for skin and pale surfaces, usually close to neutral rather than deliberately dark. Preserve highlight texture in cheeks, curtains, and tabletops. With DR400 selected, the X100VI requires ISO 500 or higher for that dynamic-range setting.",
+    sceneSuggestions: [
+      "Portraits beside a large window",
+      "Cafés with soft indirect daylight",
+      "People in open shade",
+      "Everyday interiors on an overcast day",
+    ],
+    colorNotes:
+      "Muted reds, cream, wood, faded green, denim blue, and natural skin tones suit the direction. Keep the palette quiet and let gentle tonal transitions do more work than saturation.",
+    avoid:
+      "Direct golden-hour sun when you want Golden Sunday, strong green fluorescent spill, and scenes built around hard blue skies or punchy primary colors. This Look depends on soft light more than on added warmth.",
+  },
+  "neon-rain-griv": {
+    exposureAdvice:
+      "Start slightly under when wet pavement and signage are both bright. Reflections can double the visual weight of a light source, so protect the sign first and let darker asphalt stay dark instead of trying to normalize the whole frame.",
+    sceneSuggestions: [
+      "Wet crosswalks reflecting LED signs",
+      "Umbrellas passing through colored light",
+      "Puddles beneath convenience stores and stations",
+      "Headlights and signage layered across glossy pavement",
+    ],
+    colorNotes:
+      "This Look wants reflected cyan, magenta, red, and electric blue against deep neutral pavement. The reflection is part of the subject, not just background texture, so compose around where color repeats on the ground.",
+    avoid:
+      "Dry streets with weak reflections, broad evenly lit scenes, and daylight rain with no artificial color. For a general mixed-light night street without wet surfaces, Tokyo Midnight is the cleaner fit.",
+  },
+  "quiet-morning-griv": {
+    exposureAdvice:
+      "Keep exposure open enough that pale walls, mist, and dark clothing remain separated, but do not push the file so bright that the quiet tonal hierarchy disappears. Soft weather should still feel soft, not washed out.",
+    sceneSuggestions: [
+      "Overcast residential streets",
+      "Window-lit rooms before direct sun arrives",
+      "Quiet cafés and transit interiors",
+      "Documentary frames with fog, pale walls, or muted clothing",
+    ],
+    colorNotes:
+      "Look for stone, soft green, grey-blue, cream, weathered wood, and low-saturation clothing. A narrow palette helps the open shadows feel intentional rather than simply flat.",
+    avoid:
+      "Hard noon sun, saturated signage, golden backlight, and scenes that rely on punchy contrast. Summer Chrome is the better daylight choice when edges and color separation are the point.",
   },
 };
 
