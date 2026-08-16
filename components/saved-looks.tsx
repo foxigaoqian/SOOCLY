@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import { devices, looks, lookVariants } from "@/lib/demo-data";
 import {
   getGearSnapshot,
@@ -36,30 +36,22 @@ export function SavedLooks() {
   const savedLooks = looks.filter((look) => savedSlugs.includes(look.slug));
   const gearDevices = devices.filter((device) => gearDeviceIds.includes(device.id));
 
-  const compatibleDeviceIdsByLook = useMemo(() => {
-    const map = new Map<string, string[]>();
+  const compatibleDeviceIdsByLook = new Map<string, string[]>();
+  lookVariants.forEach((variant) => {
+    const current = compatibleDeviceIdsByLook.get(variant.lookId) ?? [];
+    if (!current.includes(variant.deviceId)) current.push(variant.deviceId);
+    compatibleDeviceIdsByLook.set(variant.lookId, current);
+  });
 
-    lookVariants.forEach((variant) => {
-      const current = map.get(variant.lookId) ?? [];
-      if (!current.includes(variant.deviceId)) current.push(variant.deviceId);
-      map.set(variant.lookId, current);
-    });
-
-    return map;
-  }, []);
-
-  const recommendations = useMemo(() => {
-    const savedIds = new Set(savedLooks.map((look) => look.id));
-
-    return looks
-      .filter((look) => {
-        if (savedIds.has(look.id)) return false;
-        if (gearDeviceIds.length === 0) return true;
-        const compatibleIds = compatibleDeviceIdsByLook.get(look.id) ?? [];
-        return gearDeviceIds.some((deviceId) => compatibleIds.includes(deviceId));
-      })
-      .slice(0, 3);
-  }, [compatibleDeviceIdsByLook, gearDeviceIds, savedLooks]);
+  const savedIds = new Set(savedLooks.map((look) => look.id));
+  const recommendations = looks
+    .filter((look) => {
+      if (savedIds.has(look.id)) return false;
+      if (gearDeviceIds.length === 0) return true;
+      const compatibleIds = compatibleDeviceIdsByLook.get(look.id) ?? [];
+      return gearDeviceIds.some((deviceId) => compatibleIds.includes(deviceId));
+    })
+    .slice(0, 3);
 
   if (savedLooks.length === 0) {
     return (
