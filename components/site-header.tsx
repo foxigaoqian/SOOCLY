@@ -10,12 +10,12 @@ export function SiteHeader() {
         </Link>
 
         <nav className="site-nav site-nav--v5" aria-label="Primary navigation">
-          <Link href="/#looks">Looks</Link>
+          <Link href="/looks">Looks</Link>
           <Link href="/#cameras">Cameras</Link>
           <Link className="site-nav__saved" href="/saved">Saved</Link>
         </nav>
 
-        <Link className="site-header__cta" href="/#looks">
+        <Link className="site-header__cta" href="/looks">
           <span>Explore Looks</span>
           <span aria-hidden="true">↗</span>
         </Link>
