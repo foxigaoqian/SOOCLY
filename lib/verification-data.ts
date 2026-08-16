@@ -1,5 +1,7 @@
 import type {
+  CameraProofImage,
   LookVariant,
+  SameSceneProofPair,
   VariantVerificationEvidence,
   VerificationStatus,
 } from "@/lib/types";
@@ -45,8 +47,38 @@ export type VerificationProgress = {
   canBeVerified: boolean;
 };
 
+export type RenderableCameraProof = {
+  sampleImages: CameraProofImage[];
+  splitPairs: SameSceneProofPair[];
+};
+
 export function getVerificationEvidence(variantId: string) {
   return verificationEvidence[variantId];
+}
+
+export function getRenderableCameraProof(variant: LookVariant): RenderableCameraProof {
+  const evidence = getVerificationEvidence(variant.id);
+
+  // Camera proof is never rendered publicly until the image rights for the
+  // evidence set have been confirmed. This keeps collected/testing assets
+  // separate from assets that are safe to present as product proof.
+  if (!evidence?.rightsConfirmed) {
+    return { sampleImages: [], splitPairs: [] };
+  }
+
+  const sampleImages = evidence.sampleImages.filter(
+    (image) => image.deviceId === variant.deviceId && image.role === "look-sample",
+  );
+
+  const splitPairs = evidence.splitPairs.filter(
+    (pair) =>
+      pair.defaultImage.deviceId === variant.deviceId &&
+      pair.lookImage.deviceId === variant.deviceId &&
+      pair.defaultImage.role === "default" &&
+      pair.lookImage.role === "look",
+  );
+
+  return { sampleImages, splitPairs };
 }
 
 export function getVerificationProgress(variant: LookVariant): VerificationProgress {
