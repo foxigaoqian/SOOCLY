@@ -2,23 +2,33 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import type { SameSceneProofPair } from "@/lib/types";
 
 export function BeforeAfter({
   image,
   alt,
   filter,
   lookLabel = "SOOCLY Look",
+  proofPair,
+  deviceName,
+  publiclyVerified = false,
 }: {
   image: string;
   alt: string;
   filter: string;
   lookLabel?: string;
+  proofPair?: SameSceneProofPair;
+  deviceName?: string;
+  publiclyVerified?: boolean;
 }) {
   const [position, setPosition] = useState(52);
   const stageRef = useRef<HTMLDivElement>(null);
   const interactedRef = useRef(false);
   const demoedRef = useRef(false);
   const timersRef = useRef<number[]>([]);
+  const beforeImage = proofPair?.defaultImage.src ?? image;
+  const afterImage = proofPair?.lookImage.src ?? image;
+  const isCameraProof = Boolean(proofPair);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -73,7 +83,9 @@ export function BeforeAfter({
       <div className="comparison__brandline" aria-hidden="true">
         <span className="comparison__brandline-name">The SOOCLY Split</span>
         <span className="comparison__brandline-rule" />
-        <span className="comparison__brandline-state">Default → Look</span>
+        <span className="comparison__brandline-state">
+          {isCameraProof ? "Real Default → Real Look" : "Default → Look"}
+        </span>
       </div>
 
       <div
@@ -83,10 +95,9 @@ export function BeforeAfter({
         aria-label={`Compare Default with ${lookLabel}`}
       >
         <Image
-          src={image}
-          alt={`${alt}, default visualization`}
+          src={beforeImage}
+          alt={proofPair?.defaultImage.alt ?? `${alt}, default visualization`}
           fill
-          priority
           sizes="(max-width: 900px) 94vw, 1240px"
           className="comparison__image"
         />
@@ -97,13 +108,12 @@ export function BeforeAfter({
           aria-hidden="true"
         >
           <Image
-            src={image}
+            src={afterImage}
             alt=""
             fill
-            priority
             sizes="(max-width: 900px) 94vw, 1240px"
             className="comparison__image"
-            style={{ filter }}
+            style={isCameraProof ? undefined : { filter }}
           />
         </div>
 
@@ -141,7 +151,11 @@ export function BeforeAfter({
       </div>
 
       <p className="comparison__disclaimer">
-        Prototype visualization only: the Look side currently uses a browser color treatment. Production comparisons must use verified same-scene camera output.
+        {proofPair
+          ? publiclyVerified
+            ? `Verified same-scene camera output${deviceName ? ` · ${deviceName}` : ""}${proofPair.scene ? ` · ${proofPair.scene}` : ""}.`
+            : `Real same-scene camera-output evidence${deviceName ? ` · ${deviceName}` : ""}. The full Look remains in verification until every proof check passes.`
+          : "Prototype visualization only: the Look side currently uses a browser color treatment. Production comparisons must use verified same-scene camera output."}
       </p>
     </div>
   );
