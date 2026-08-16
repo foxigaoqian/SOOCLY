@@ -17,7 +17,13 @@ export function BeforeAfter({
   const [position, setPosition] = useState(52);
 
   return (
-    <div className="comparison">
+    <div className="comparison comparison--soocly-split">
+      <div className="comparison__brandline" aria-hidden="true">
+        <span className="comparison__brandline-name">The SOOCLY Split</span>
+        <span className="comparison__brandline-rule" />
+        <span className="comparison__brandline-state">Default → Look</span>
+      </div>
+
       <div className="comparison__stage" role="group" aria-label={`Compare Default with ${lookLabel}`}>
         <Image
           src={image}
@@ -50,9 +56,9 @@ export function BeforeAfter({
         </div>
 
         <div className="comparison__divider" aria-hidden="true" style={{ left: `${position}%` }}>
-          <span className="comparison__handle">
-            <span>‹</span>
-            <span>›</span>
+          <span className="comparison__handle comparison__handle--soocly">
+            <span className="comparison__oo comparison__oo--outline" />
+            <span className="comparison__oo comparison__oo--fill" />
           </span>
         </div>
 
@@ -69,7 +75,7 @@ export function BeforeAfter({
 
       <div className="comparison__meta">
         <span>← Drag anywhere across the image →</span>
-        <span>Default / {lookLabel}</span>
+        <span>Choose it here. Shoot it out there.</span>
       </div>
 
       <p className="comparison__disclaimer">
