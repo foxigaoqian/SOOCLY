@@ -8,6 +8,7 @@ import { CopySettingsButton } from "@/components/copy-settings-button";
 import { LookCard } from "@/components/look-card";
 import { MotionReveal } from "@/components/motion-reveal";
 import { SaveLookButton } from "@/components/save-look-button";
+import { VerificationStatusCard } from "@/components/verification-status-card";
 import {
   getDeviceById,
   getLook,
@@ -20,6 +21,10 @@ import {
   getLookTagline,
   getLookVisualReferences,
 } from "@/lib/look-detail-data";
+import {
+  getVerificationProgress,
+  isPubliclyVerified,
+} from "@/lib/verification-data";
 
 export function generateStaticParams() {
   return looks.map((look) => ({ slug: look.slug }));
@@ -66,7 +71,18 @@ export default async function LookPage({
     .filter((item) => item.id !== look.id)
     .filter((item) => getVariantsForLook(item.id).some((itemVariant) => itemVariant.deviceId === device.id))
     .slice(0, 3);
-  const isVerified = variant.status === "verified";
+  const verification = getVerificationProgress(variant);
+  const isVerified = isPubliclyVerified(variant);
+  const statusLabel = isVerified
+    ? "Verified"
+    : variant.status === "testing"
+      ? "Testing · proof in progress"
+      : "Prototype · unverified";
+  const settingsStatusLabel = isVerified
+    ? "Verified camera output"
+    : variant.status === "testing"
+      ? "Testing · camera proof in progress"
+      : "Prototype · calibration pending";
 
   return (
     <main id="main-content" className="look-v1-page">
@@ -118,7 +134,7 @@ export default async function LookPage({
           <div>
             <span>Status</span>
             <strong className={isVerified ? "is-verified" : "is-prototype"}>
-              {isVerified ? "Verified" : "Prototype · unverified"}
+              {statusLabel}
             </strong>
           </div>
         </MotionReveal>
@@ -252,7 +268,7 @@ export default async function LookPage({
           </div>
           <div className="look-v1-settings-actions">
             <span className={`look-v1-status ${isVerified ? "is-verified" : "is-prototype"}`}>
-              <i /> {isVerified ? "Verified camera output" : "Prototype · calibration pending"}
+              <i /> {settingsStatusLabel}
             </span>
             <CopySettingsButton
               lookName={look.name}
@@ -333,16 +349,11 @@ export default async function LookPage({
 
       <section className="look-v1-proof-section shell" aria-labelledby="proof-title">
         <MotionReveal variant="scale">
-          <div className="look-v1-proof-card">
-            <div className="look-v1-proof-card__mark" aria-hidden="true"><span /><span /></div>
-            <div>
-              <p className="eyebrow brand-eyebrow">Camera proof status</p>
-              <h2 id="proof-title">Reference now. Verified camera samples before release.</h2>
-            </div>
-            <p>
-              SOOCLY will only label photographs as “shot with this Look” after the device-specific settings have been tested on that camera. Until then, prototype imagery stays clearly marked as reference material.
-            </p>
-          </div>
+          <VerificationStatusCard
+            lookName={look.name}
+            deviceName={`${device.brand} ${device.model}`}
+            progress={verification}
+          />
         </MotionReveal>
       </section>
 
