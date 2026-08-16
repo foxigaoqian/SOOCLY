@@ -3,6 +3,12 @@ import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SiteMotion } from "@/components/site-motion";
+import {
+  SITE_DESCRIPTION,
+  SITE_INDEXABLE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site-config";
 import "./globals.css";
 import "./apple-motion.css";
 import "./brand-v4.css";
@@ -17,14 +23,32 @@ import "./saved-v1.css";
 import "./about-v1.css";
 import "./foundation-v1.css";
 
+const brandTitle = "SOOCLY — Choose the Look Before You Shoot.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://soocly.com"),
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
-    default: "SOOCLY — Choose the Look Before You Shoot.",
-    template: "%s — SOOCLY",
+    default: brandTitle,
+    template: `%s — ${SITE_NAME}`,
   },
-  description: "Discover Camera Looks made for your gear. Choose a visual direction before you shoot, apply the camera-specific settings, and shoot it straight.",
-  robots: { index: false, follow: false },
+  description: SITE_DESCRIPTION,
+  manifest: "/manifest.webmanifest",
+  robots: SITE_INDEXABLE
+    ? { index: true, follow: true }
+    : { index: false, follow: false, nocache: true },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
+    title: brandTitle,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: brandTitle,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
@@ -32,10 +56,24 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+const websiteStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+};
+
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteStructuredData).replace(/</g, "\\u003c"),
+          }}
+        />
         <a className="skip-link" href="#main-content">Skip to content</a>
         <SiteMotion />
         <SiteHeader />
