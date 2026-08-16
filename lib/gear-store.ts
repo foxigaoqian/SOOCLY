@@ -41,13 +41,21 @@ export function subscribeGear(callback: () => void) {
   };
 }
 
+function writeGear(deviceIds: string[]) {
+  const payload: GearPayload = { version: 1, deviceIds };
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  window.dispatchEvent(new Event(GEAR_EVENT));
+}
+
 export function toggleGearDevice(deviceId: string) {
   const current = parseGearSnapshot(getGearSnapshot());
   const next = current.includes(deviceId)
     ? current.filter((item) => item !== deviceId)
     : [...current, deviceId];
 
-  const payload: GearPayload = { version: 1, deviceIds: next };
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  window.dispatchEvent(new Event(GEAR_EVENT));
+  writeGear(next);
+}
+
+export function clearGearDevices() {
+  writeGear([]);
 }
