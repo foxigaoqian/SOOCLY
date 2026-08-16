@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BeforeAfter } from "@/components/before-after";
 import { BrandMark } from "@/components/brand-mark";
+import { CameraProofGallery } from "@/components/camera-proof-gallery";
 import { CopySettingsButton } from "@/components/copy-settings-button";
 import { LookCard } from "@/components/look-card";
 import { MotionReveal } from "@/components/motion-reveal";
@@ -22,6 +23,7 @@ import {
   getLookVisualReferences,
 } from "@/lib/look-detail-data";
 import {
+  getRenderableCameraProof,
   getVerificationProgress,
   isPubliclyVerified,
 } from "@/lib/verification-data";
@@ -72,6 +74,10 @@ export default async function LookPage({
     .filter((item) => getVariantsForLook(item.id).some((itemVariant) => itemVariant.deviceId === device.id))
     .slice(0, 3);
   const verification = getVerificationProgress(variant);
+  const publicProof = getRenderableCameraProof(variant);
+  const primaryProofImage = publicProof.sampleImages[0];
+  const splitProof = publicProof.splitPairs[0];
+  const hasRealCameraSamples = publicProof.sampleImages.length > 0;
   const isVerified = isPubliclyVerified(variant);
   const statusLabel = isVerified
     ? "Verified"
@@ -83,6 +89,13 @@ export default async function LookPage({
     : variant.status === "testing"
       ? "Testing · camera proof in progress"
       : "Prototype · calibration pending";
+  const coverImage = primaryProofImage?.src ?? look.coverImage;
+  const coverAlt = primaryProofImage?.alt ?? `Prototype visual direction for ${look.name}`;
+  const coverStateLabel = primaryProofImage
+    ? isVerified
+      ? "Verified camera output"
+      : "Camera proof sample"
+    : "Prototype visualization";
 
   return (
     <main id="main-content" className="look-v1-page">
@@ -144,12 +157,12 @@ export default async function LookPage({
         <section className="look-v1-cover shell" aria-label={`${look.name} visual direction`}>
           <div className="look-v1-cover__frame">
             <Image
-              src={look.coverImage}
-              alt={`Prototype visual direction for ${look.name}`}
+              src={coverImage}
+              alt={coverAlt}
               fill
               priority
               sizes="(max-width: 900px) 94vw, 1240px"
-              style={{ filter: look.previewFilter }}
+              style={primaryProofImage ? undefined : { filter: look.previewFilter }}
             />
             <div className="look-v1-cover__wash" aria-hidden="true" />
             <div className="look-v1-cover__stamp" aria-hidden="true">
@@ -161,50 +174,59 @@ export default async function LookPage({
                 <span>Visual direction</span>
                 <strong>{look.name}</strong>
               </div>
-              <span>{device.shortLabel} · Prototype visualization</span>
+              <span>{device.shortLabel} · {coverStateLabel}</span>
             </div>
           </div>
         </section>
       </MotionReveal>
 
-      <section className="look-v1-gallery-section" aria-labelledby="visual-story-title">
-        <div className="shell">
-          <MotionReveal variant="rise">
-            <div className="look-v1-section-heading">
-              <div>
-                <p className="eyebrow brand-eyebrow">The visual idea</p>
-                <h2 id="visual-story-title">Know the photograph before the settings.</h2>
+      {hasRealCameraSamples ? (
+        <CameraProofGallery
+          lookName={look.name}
+          deviceName={`${device.brand} ${device.model}`}
+          images={publicProof.sampleImages}
+          verified={isVerified}
+        />
+      ) : (
+        <section className="look-v1-gallery-section" aria-labelledby="visual-story-title">
+          <div className="shell">
+            <MotionReveal variant="rise">
+              <div className="look-v1-section-heading">
+                <div>
+                  <p className="eyebrow brand-eyebrow">The visual idea</p>
+                  <h2 id="visual-story-title">Know the photograph before the settings.</h2>
+                </div>
+                <p>
+                  These images communicate the intended mood, color relationships, and scene types. In this prototype they are reference imagery with browser color treatment — not verified camera output.
+                </p>
               </div>
-              <p>
-                These images communicate the intended mood, color relationships, and scene types. In this prototype they are reference imagery with browser color treatment — not verified camera output.
-              </p>
-            </div>
-          </MotionReveal>
+            </MotionReveal>
 
-          <div className={`look-v1-gallery look-v1-gallery--${Math.min(visualReferences.length, 4)}`}>
-            {visualReferences.map((item, index) => (
-              <MotionReveal key={`${item.src}-${index}`} variant={index === 0 ? "scale" : "rise"}>
-                <figure className={`look-v1-gallery__item look-v1-gallery__item--${item.aspect}`}>
-                  <div className="look-v1-gallery__media">
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      fill
-                      sizes="(max-width: 760px) 94vw, 50vw"
-                      style={{ filter: look.previewFilter }}
-                    />
-                    <span className="look-v1-gallery__index">0{index + 1}</span>
-                  </div>
-                  <figcaption>
-                    <span>{item.label}</span>
-                    <span>Prototype reference</span>
-                  </figcaption>
-                </figure>
-              </MotionReveal>
-            ))}
+            <div className={`look-v1-gallery look-v1-gallery--${Math.min(visualReferences.length, 4)}`}>
+              {visualReferences.map((item, index) => (
+                <MotionReveal key={`${item.src}-${index}`} variant={index === 0 ? "scale" : "rise"}>
+                  <figure className={`look-v1-gallery__item look-v1-gallery__item--${item.aspect}`}>
+                    <div className="look-v1-gallery__media">
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        fill
+                        sizes="(max-width: 760px) 94vw, 50vw"
+                        style={{ filter: look.previewFilter }}
+                      />
+                      <span className="look-v1-gallery__index">0{index + 1}</span>
+                    </div>
+                    <figcaption>
+                      <span>{item.label}</span>
+                      <span>Prototype reference</span>
+                    </figcaption>
+                  </figure>
+                </MotionReveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="look-v1-split-section" aria-labelledby="comparison-title">
         <div className="shell">
@@ -212,7 +234,11 @@ export default async function LookPage({
             <div className="center-heading brand-center-heading look-v1-split-heading">
               <p className="eyebrow brand-eyebrow">The SOOCLY Split</p>
               <h2 id="comparison-title">Default. Then {look.name}.</h2>
-              <p>Drag directly across the photograph. Choose the direction first, then take the camera-specific implementation with you.</p>
+              <p>
+                {splitProof
+                  ? `This comparison uses a rights-cleared same-scene ${device.model} pair from the camera-proof record.`
+                  : "Drag directly across the photograph. Choose the direction first, then take the camera-specific implementation with you."}
+              </p>
             </div>
           </MotionReveal>
 
@@ -222,6 +248,9 @@ export default async function LookPage({
               alt={look.name}
               filter={look.previewFilter}
               lookLabel={look.name}
+              proofPair={splitProof}
+              deviceName={`${device.brand} ${device.model}`}
+              publiclyVerified={isVerified}
             />
           </MotionReveal>
         </div>
