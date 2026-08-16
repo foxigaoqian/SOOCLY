@@ -27,11 +27,44 @@ export type Look = {
   accent: string;
 };
 
+export type VerificationStatus = "prototype" | "testing" | "verified";
+
+export type CameraProofImage = {
+  id: string;
+  src: string;
+  alt: string;
+  deviceId: string;
+  role: "look-sample" | "default" | "look";
+  creator: string;
+  rights: string;
+  capturedAt?: string;
+  scene?: string;
+};
+
+export type SameSceneProofPair = {
+  id: string;
+  defaultImage: CameraProofImage;
+  lookImage: CameraProofImage;
+  scene: string;
+};
+
+export type VariantVerificationEvidence = {
+  variantId: string;
+  settingsValidated: boolean;
+  rightsConfirmed: boolean;
+  testedBy?: string;
+  testedAt?: string;
+  settingsVersion?: string;
+  sampleImages: CameraProofImage[];
+  splitPairs: SameSceneProofPair[];
+  notes: string[];
+};
+
 export type LookVariant = {
   id: string;
   lookId: string;
   deviceId: string;
-  status: "prototype" | "verified";
+  status: VerificationStatus;
   settingsLabel: string;
   settings: Setting[];
   bestFor: string[];
