@@ -35,9 +35,10 @@ export type CameraProofImage = {
   alt: string;
   deviceId: string;
   role: "look-sample" | "default" | "look";
+  source: "real-camera-output";
   creator: string;
   rights: string;
-  capturedAt?: string;
+  capturedAt: string;
   scene?: string;
 };
 
@@ -58,6 +59,11 @@ export type VariantVerificationEvidence = {
   sampleImages: CameraProofImage[];
   splitPairs: SameSceneProofPair[];
   notes: string[];
+};
+
+export type ProofManifest = {
+  version: 1;
+  variants: VariantVerificationEvidence[];
 };
 
 export type LookVariant = {
