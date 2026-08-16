@@ -28,6 +28,7 @@ export function SiteFooter() {
           </div>
           <div className="site-footer__principles">
             <p className="site-footer__heading">SOOCLY</p>
+            <Link href="/about">About</Link>
             <span>Looks, not presets.</span>
             <span>Made for your camera.</span>
             <span>Shoot it straight.</span>
