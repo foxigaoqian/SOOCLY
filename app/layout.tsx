@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 import "./apple-motion.css";
 import "./brand-v4.css";
+import "./brand-shell-v5.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://soocly.com"),
@@ -27,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <a className="skip-link" href="#main-content">Skip to content</a>
         <SiteHeader />
         {children}
+        <SiteFooter />
       </body>
     </html>
   );
