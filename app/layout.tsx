@@ -24,6 +24,7 @@ import "./about-v1.css";
 import "./foundation-v1.css";
 import "./prelaunch-v1.css";
 import "./prototype-gallery-v2.css";
+import "./looks-browse-v2.css";
 
 const brandTitle = "SOOCLY — Choose the Look Before You Shoot.";
 
