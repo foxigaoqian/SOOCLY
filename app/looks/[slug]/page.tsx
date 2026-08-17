@@ -202,7 +202,7 @@ export default async function LookPage({
               </div>
             </MotionReveal>
 
-            <div className={`look-v1-gallery look-v1-gallery--${Math.min(visualReferences.length, 4)}`}>
+            <div className={`look-v1-gallery look-v1-gallery--${Math.min(visualReferences.length, 6)}`}>
               {visualReferences.map((item, index) => (
                 <MotionReveal key={`${item.src}-${index}`} variant={index === 0 ? "scale" : "rise"}>
                   <figure className={`look-v1-gallery__item look-v1-gallery__item--${item.aspect}`}>
