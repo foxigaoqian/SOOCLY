@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import proofStyles from "@/components/looks-discovery-proof.module.css";
+import { getLookVisualReferences } from "@/lib/look-detail-data";
 import { getLookProofState } from "@/lib/look-proof-state";
 import type { Device, Look, LookVariant } from "@/lib/types";
 
@@ -102,7 +103,7 @@ export function LooksDiscovery({
       </section>
 
       <section className="looks-marquee shell" aria-label="Look preview strip">
-        {looks.slice(0, 4).map((look, index) => (
+        {looks.map((look, index) => (
           <Link
             key={look.id}
             href={`/looks/${look.slug}`}
@@ -111,10 +112,11 @@ export function LooksDiscovery({
           >
             <Image
               src={look.coverImage}
-              alt={`Visual reference for ${look.name}`}
+              alt={`Prototype visual reference for ${look.name}`}
               fill
               priority={index < 2}
-              sizes="(max-width: 800px) 80vw, 30vw"
+              sizes="(max-width: 800px) 76vw, 30vw"
+              style={{ filter: look.previewFilter }}
             />
             <span>{look.name}</span>
           </Link>
@@ -209,6 +211,8 @@ export function LooksDiscovery({
               const href = `/looks/${look.slug}${targetDeviceId ? `?device=${targetDeviceId}` : ""}`;
               const discoveryTags = DISCOVERY_TAGS[look.slug] ?? [];
               const proof = getLookProofState(look, activeDevice);
+              const visualReferences = getLookVisualReferences(look);
+              const moodboardPreview = visualReferences.slice(1, 4);
               const proofToneClass =
                 proof.tone === "verified"
                   ? proofStyles.verified
@@ -228,6 +232,7 @@ export function LooksDiscovery({
                       alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
                       fill
                       sizes="(max-width: 720px) 94vw, (max-width: 1100px) 47vw, 31vw"
+                      style={proof.imageSrc ? undefined : { filter: look.previewFilter }}
                     />
                     <div className="looks-discovery-card__topline">
                       <span className={`${proofStyles.badge} ${proofToneClass}`}>
@@ -241,6 +246,35 @@ export function LooksDiscovery({
                       <span>↗</span>
                     </div>
                   </Link>
+
+                  <div
+                    className="looks-discovery-card__moodboard"
+                    aria-label={`${look.name} prototype reference moodboard`}
+                  >
+                    <div className="looks-discovery-card__moodboard-label">
+                      <span>Reference moodboard</span>
+                      <strong>{visualReferences.length.toString().padStart(2, "0")} frames</strong>
+                    </div>
+                    <div className="looks-discovery-card__moodboard-strip">
+                      {moodboardPreview.map((reference, referenceIndex) => (
+                        <Link
+                          href={href}
+                          key={`${reference.src}-${referenceIndex}`}
+                          className="looks-discovery-card__moodboard-frame"
+                          aria-label={`Open ${look.name}: ${reference.label}`}
+                        >
+                          <Image
+                            src={reference.src}
+                            alt={reference.alt}
+                            fill
+                            sizes="(max-width: 720px) 28vw, 10vw"
+                            style={{ filter: look.previewFilter }}
+                          />
+                          <span aria-hidden="true">0{referenceIndex + 2}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
 
                   <div className="looks-discovery-card__body">
                     <div className="looks-discovery-card__tags" aria-label="Look categories">
