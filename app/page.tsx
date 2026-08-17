@@ -70,6 +70,7 @@ export default function HomePage() {
             fill
             priority
             sizes="(max-width: 900px) 94vw, 1240px"
+            style={featuredProof.imageFilter ? { filter: featuredProof.imageFilter } : undefined}
           />
           <div className="editorial-hero__shade" aria-hidden="true" />
           <div className="brand-hero__badge" aria-hidden="true">
