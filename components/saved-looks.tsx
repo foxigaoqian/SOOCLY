@@ -131,6 +131,7 @@ export function SavedLooks() {
                     fill
                     priority={index < 2}
                     sizes="(max-width: 760px) 94vw, 46vw"
+                    style={proof.imageFilter ? { filter: proof.imageFilter } : undefined}
                   />
                   <span className="saved-card__shade" aria-hidden="true" />
                   <span className="saved-card__index" aria-hidden="true">0{index + 1}</span>
@@ -211,6 +212,7 @@ export function SavedLooks() {
                       alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
                       fill
                       sizes="(max-width: 760px) 82vw, 30vw"
+                      style={proof.imageFilter ? { filter: proof.imageFilter } : undefined}
                     />
                   </span>
                   <span className="saved-next-card__copy">

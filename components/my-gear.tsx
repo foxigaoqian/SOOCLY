@@ -88,6 +88,7 @@ export function MyGear() {
                           alt={primaryProof?.imageAlt ?? `Prototype visual reference for ${primary.name}`}
                           fill
                           sizes="(max-width: 760px) 92vw, 42vw"
+                          style={primaryProof?.imageFilter ? { filter: primaryProof.imageFilter } : undefined}
                         />
                       </span>
                     ) : null}
@@ -98,6 +99,7 @@ export function MyGear() {
                           alt=""
                           fill
                           sizes="(max-width: 760px) 40vw, 18vw"
+                          style={secondaryProof?.imageFilter ? { filter: secondaryProof.imageFilter } : undefined}
                         />
                       </span>
                     ) : null}
@@ -175,6 +177,7 @@ export function MyGear() {
                         alt={proof.imageAlt ?? `Prototype visual reference for ${look.name}`}
                         fill
                         sizes="(max-width: 720px) 92vw, 31vw"
+                        style={proof.imageFilter ? { filter: proof.imageFilter } : undefined}
                       />
                       <span>{proof.label} · Open Look ↗</span>
                     </Link>

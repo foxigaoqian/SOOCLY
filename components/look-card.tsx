@@ -31,6 +31,7 @@ export function LookCard({
           fill
           priority={priority}
           sizes="(max-width: 720px) 94vw, (max-width: 1100px) 47vw, 31vw"
+          style={proof.imageFilter ? { filter: proof.imageFilter } : undefined}
         />
         <span className={`${styles.proofBadge} ${badgeToneClass}`}>
           {proof.label}

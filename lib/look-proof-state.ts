@@ -12,6 +12,7 @@ export type LookProofState = {
   tone: LookProofTone;
   imageSrc?: string;
   imageAlt?: string;
+  imageFilter?: string;
 };
 
 export function getLookProofState(look: Look, device?: Device): LookProofState {
@@ -30,6 +31,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
   const proofImage = proofVariant
     ? getRenderableCameraProof(proofVariant).sampleImages[0]
     : undefined;
+  const imageFilter = proofImage ? undefined : look.previewFilter;
 
   if (device) {
     if (verifiedVariants.length > 0) {
@@ -38,6 +40,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
         tone: "verified",
         imageSrc: proofImage?.src,
         imageAlt: proofImage?.alt,
+        imageFilter,
       };
     }
 
@@ -47,6 +50,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
         tone: "testing",
         imageSrc: proofImage?.src,
         imageAlt: proofImage?.alt,
+        imageFilter,
       };
     }
 
@@ -55,6 +59,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
       tone: "prototype",
       imageSrc: proofImage?.src,
       imageAlt: proofImage?.alt,
+      imageFilter,
     };
   }
 
@@ -68,6 +73,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
       tone: "verified",
       imageSrc: proofImage?.src,
       imageAlt: proofImage?.alt,
+      imageFilter,
     };
   }
 
@@ -80,6 +86,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
       tone: "verified",
       imageSrc: proofImage?.src,
       imageAlt: proofImage?.alt,
+      imageFilter,
     };
   }
 
@@ -89,6 +96,7 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
       tone: "testing",
       imageSrc: proofImage?.src,
       imageAlt: proofImage?.alt,
+      imageFilter,
     };
   }
 
@@ -97,5 +105,6 @@ export function getLookProofState(look: Look, device?: Device): LookProofState {
     tone: "prototype",
     imageSrc: proofImage?.src,
     imageAlt: proofImage?.alt,
+    imageFilter,
   };
 }
