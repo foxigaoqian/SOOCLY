@@ -131,6 +131,7 @@ export default async function CameraPage({
                 fill
                 priority
                 sizes="(max-width: 900px) 94vw, 58vw"
+                style={heroPrimaryProof?.imageFilter ? { filter: heroPrimaryProof.imageFilter } : undefined}
               />
               <span className="camera-detail-hero__image-shade" aria-hidden="true" />
               <span className="camera-detail-hero__caption">
@@ -151,6 +152,7 @@ export default async function CameraPage({
                 alt={heroSecondaryProof?.imageAlt ?? `Prototype visual reference for ${heroSecondary.name}`}
                 fill
                 sizes="(max-width: 900px) 48vw, 24vw"
+                style={heroSecondaryProof?.imageFilter ? { filter: heroSecondaryProof.imageFilter } : undefined}
               />
               <span className="camera-detail-hero__image-shade" aria-hidden="true" />
               <span className="camera-detail-hero__caption camera-detail-hero__caption--small">
