@@ -97,6 +97,7 @@ export default function CamerasPage() {
                           fill
                           priority={index === 0}
                           sizes="(max-width: 820px) 92vw, 43vw"
+                          style={primaryProof?.imageFilter ? { filter: primaryProof.imageFilter } : undefined}
                         />
                       </span>
                     ) : null}
@@ -107,6 +108,7 @@ export default function CamerasPage() {
                           alt=""
                           fill
                           sizes="(max-width: 820px) 38vw, 16vw"
+                          style={secondaryProof?.imageFilter ? { filter: secondaryProof.imageFilter } : undefined}
                         />
                       </span>
                     ) : null}
@@ -117,6 +119,7 @@ export default function CamerasPage() {
                           alt=""
                           fill
                           sizes="(max-width: 820px) 38vw, 16vw"
+                          style={tertiaryProof?.imageFilter ? { filter: tertiaryProof.imageFilter } : undefined}
                         />
                       </span>
                     ) : null}
