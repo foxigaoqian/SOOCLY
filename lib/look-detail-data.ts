@@ -49,6 +49,18 @@ const visualReferences: Record<string, LookVisualReference[]> = {
       label: "Blue hour",
       aspect: "landscape",
     },
+    {
+      src: "https://images.unsplash.com/photo-1741920852866-94d44a2d32bb?auto=format&fit=crop&w=1600&q=86",
+      alt: "Prototype visual reference of a bright Tokyo crossing with mixed warm and cool night light",
+      label: "Ginza glow",
+      aspect: "landscape",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1701012292134-4d6960e1847e?auto=format&fit=crop&w=1600&q=86",
+      alt: "Prototype visual reference of a dark urban road punctuated by warm street lighting",
+      label: "Street lamps",
+      aspect: "landscape",
+    },
   ],
   "golden-sunday": [
     {
@@ -75,6 +87,18 @@ const visualReferences: Record<string, LookVisualReference[]> = {
       label: "Backlit travel",
       aspect: "landscape",
     },
+    {
+      src: "https://images.unsplash.com/photo-1479044769763-c28e05b5baa5?auto=format&fit=crop&w=1500&q=86",
+      alt: "Prototype visual reference of a cafe interior filled with low warm evening light",
+      label: "Cafe dusk",
+      aspect: "landscape",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1483133087738-5aa79f385172?auto=format&fit=crop&w=1300&q=86",
+      alt: "Prototype visual reference of a traveler standing against a golden horizon",
+      label: "Sunset travel",
+      aspect: "portrait",
+    },
   ],
   "summer-chrome": [
     {
@@ -99,6 +123,18 @@ const visualReferences: Record<string, LookVisualReference[]> = {
       src: "https://images.unsplash.com/photo-1742268350534-d453e71222cf?auto=format&fit=crop&w=1600&q=86",
       alt: "Prototype visual reference of a sunlit Tokyo street with graphic shadow separation",
       label: "Street contrast",
+      aspect: "landscape",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1773088349801-2da68712fa21?auto=format&fit=crop&w=1300&q=86",
+      alt: "Prototype visual reference of a building facade cut by strong sunlight against a deep blue sky",
+      label: "Sun geometry",
+      aspect: "portrait",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1770389781039-2f9c8ac773d2?auto=format&fit=crop&w=1500&q=86",
+      alt: "Prototype visual reference of modern architecture with sharp graphic angles under blue sky",
+      label: "Blue structure",
       aspect: "landscape",
     },
   ],
@@ -127,6 +163,18 @@ const visualReferences: Record<string, LookVisualReference[]> = {
       label: "Everyday portrait",
       aspect: "landscape",
     },
+    {
+      src: "https://images.unsplash.com/photo-1485011136168-8c69d1e193ea?auto=format&fit=crop&w=1400&q=86",
+      alt: "Prototype visual reference of a quiet portrait beside window blinds in soft natural light",
+      label: "Window quiet",
+      aspect: "landscape",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1571659272955-04f5f54642dd?auto=format&fit=crop&w=1200&q=86",
+      alt: "Prototype visual reference of a natural-light portrait with soft shadow and restrained color",
+      label: "Soft portrait",
+      aspect: "portrait",
+    },
   ],
   "neon-rain": [
     {
@@ -151,6 +199,18 @@ const visualReferences: Record<string, LookVisualReference[]> = {
       src: "https://images.unsplash.com/photo-1775315811739-92a7ab929356?auto=format&fit=crop&w=1600&q=86",
       alt: "Prototype visual reference of a wet city crossing reflecting signs and traffic light",
       label: "Pavement glow",
+      aspect: "landscape",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1759273621838-b287e14b0ed4?auto=format&fit=crop&w=1200&q=86",
+      alt: "Prototype visual reference of a wet neon street with deep cyan and red pavement reflections",
+      label: "Neon pavement",
+      aspect: "portrait",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1774876231335-e7513897026c?auto=format&fit=crop&w=1600&q=86",
+      alt: "Prototype visual reference of pedestrians and umbrellas moving through a rainy illuminated city street",
+      label: "Rain crowd",
       aspect: "landscape",
     },
   ],
@@ -178,6 +238,18 @@ const visualReferences: Record<string, LookVisualReference[]> = {
       alt: "Prototype visual reference of a still room with dim early-morning window light",
       label: "Interior stillness",
       aspect: "square",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1751746737995-3cb55cd20b50?auto=format&fit=crop&w=1600&q=86",
+      alt: "Prototype visual reference of a quiet residential street in pale early-morning light",
+      label: "Pale street",
+      aspect: "landscape",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1769454334497-f634aa715e55?auto=format&fit=crop&w=1500&q=86",
+      alt: "Prototype visual reference of a calm suburban street with trees and soft morning light",
+      label: "Slow suburb",
+      aspect: "landscape",
     },
   ],
 };
